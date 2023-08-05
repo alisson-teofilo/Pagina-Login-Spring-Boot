@@ -30,7 +30,6 @@ public class UsuarioRepository {
                 .addValue("id", entityUser.getId())
                 .addValue("nome", entityUser.getNome())
                 .addValue("senha", entityUser.getSenha());
-
                 return namedJdbcTemplate.update(sql, params);
     }
 
@@ -52,7 +51,6 @@ public class UsuarioRepository {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("nome", usuario.getNome(), Types.VARCHAR)
                 .addValue("id", usuario.getId(), Types.VARCHAR);
-
         retorno = namedJdbcTemplate.update(sql, params);
 
         return retorno;

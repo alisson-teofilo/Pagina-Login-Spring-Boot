@@ -20,6 +20,12 @@ public class UsuarioController {
     @Autowired
     UsuarioService service;
 
+    @GetMapping("/enviaEmail")
+    public ResponseEntity<?> enviaEmail(){
+         service.enviarEmailService("alissonteofilo@gmail.com","Recuperação de senha", "link");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<UsuarioRespose> loginUser(@RequestBody Usuario entityUser){
         ResponseEntity<UsuarioRespose> retornoService = service.loginUserService(entityUser);

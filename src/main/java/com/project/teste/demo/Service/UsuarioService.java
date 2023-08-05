@@ -3,17 +3,18 @@ package com.project.teste.demo.Service;
 import com.project.teste.demo.Dto.UsuarioRespose;
 import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Repository.UsuarioRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
 public class UsuarioService {
     @Autowired
@@ -22,9 +23,14 @@ public class UsuarioService {
     @Autowired
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
-
     @Autowired
     private UsuarioRepository repository;
+
+    private final JavaMailSender javaMailSender;
+
+    public UsuarioService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
 
     public int createUserService(Usuario entityUser) {
         int retornoRepository = repository.crateUserRepository(entityUser);
@@ -52,13 +58,23 @@ public class UsuarioService {
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
 
+
+    public void enviarEmailService( String para, String titulo, String conteudo ){
+        log.info("Enviando email");
+        var mensagem = new SimpleMailMessage();
+        mensagem.setTo(para);
+        mensagem.setSubject(titulo);
+        mensagem.setText(conteudo);
+        javaMailSender.send(mensagem);
+        log.info("Email enviado");
+
+    }
+
     public ResponseEntity<UsuarioRespose> atualizaUsuario(Usuario usuario) throws RuntimeException {
         UsuarioRespose response = new UsuarioRespose();
 
             String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON_DB.USUARIO WHERE ID = ? AND (SENHA != ? AND SENHA2 != ?)) THEN 1 ELSE 0 END AS SENHA_VALIDA FROM DUAL";
             String retornoConsulta = jdbcTemplate.queryForObject(sql, String.class, usuario.getId(), usuario.getSenha(), usuario.getSenha());
-
-            System.out.println("retornoConsulta " + retornoConsulta);
 
             if (retornoConsulta.equals("1")){
                 response.setSucesso(true);

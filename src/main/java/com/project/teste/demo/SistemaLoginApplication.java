@@ -1,14 +1,15 @@
 package com.project.teste.demo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
+@Slf4j
 @SpringBootApplication
-public class EstudosEstagioApplication {
+public class SistemaLoginApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EstudosEstagioApplication.class, args);
+		SpringApplication.run(SistemaLoginApplication.class, args);
 	}
 
 }
