@@ -28,6 +28,12 @@ public class UsuarioService {
 
     private final JavaMailSender javaMailSender;
 
+    public void enviaEmailj(){
+        String link = "http://localhost:9000/cadastro";
+
+        repository.enviarEmail("alissonteofilo@gmail.com", "Teste Email", link);
+    }
+
     public UsuarioService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -58,17 +64,6 @@ public class UsuarioService {
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
 
-
-    public void enviarEmailService( String para, String titulo, String conteudo ){
-        log.info("Enviando email");
-        var mensagem = new SimpleMailMessage();
-        mensagem.setTo(para);
-        mensagem.setSubject(titulo);
-        mensagem.setText(conteudo);
-        javaMailSender.send(mensagem);
-        log.info("Email enviado");
-
-    }
 
     public ResponseEntity<UsuarioRespose> atualizaUsuario(Usuario usuario) throws RuntimeException {
         UsuarioRespose response = new UsuarioRespose();

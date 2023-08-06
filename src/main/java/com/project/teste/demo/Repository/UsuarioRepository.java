@@ -1,19 +1,21 @@
 package com.project.teste.demo.Repository;
 
-import com.project.teste.demo.Controller.UsuarioController;
 import com.project.teste.demo.Model.Usuario;
+import jdk.dynalink.linker.support.SimpleLinkRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLOutput;
 import java.sql.Types;
 import java.util.List;
-
+@Slf4j
 @Repository
 public class UsuarioRepository {
 
@@ -22,6 +24,23 @@ public class UsuarioRepository {
 
     @Autowired
     NamedParameterJdbcTemplate namedJdbcTemplate;
+
+    private final JavaMailSender javaMailSender;
+
+    public UsuarioRepository(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+
+    public void enviarEmail( String para, String titulo, String link ){
+        log.info("Enviando email");
+        var mensagem = new SimpleMailMessage();
+        mensagem.setTo(para);
+        mensagem.setSubject(titulo);
+        mensagem.setText("Para redefinir a sua senha clique no link: " + link);
+        javaMailSender.send(mensagem);
+        log.info("Email enviado");
+
+    }
 
     public int crateUserRepository(Usuario entityUser) {
       String sql = "INSERT INTO ALISSON_DB.USUARIO(ID, NOME, SENHA) VALUES (:id,:nome,:senha)";

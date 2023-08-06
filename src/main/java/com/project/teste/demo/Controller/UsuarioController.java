@@ -22,7 +22,7 @@ public class UsuarioController {
 
     @GetMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(){
-         service.enviarEmailService("alissonteofilo@gmail.com","Recuperação de senha", "link");
+         service.enviaEmailj();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
