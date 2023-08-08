@@ -8,12 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.sql.Types;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+
 @Slf4j
 @Service
 public class UsuarioService {
@@ -26,12 +32,51 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
+    @Autowired
+    private GeraToken geraToken;
+
     private final JavaMailSender javaMailSender;
 
-    public void enviaEmailj(){
+    public void validaToken(String token, String codUsuario) {
+        String sql = "SELECT DATATOKEN FROM ALISSON_DB.USUARIO WHERE TOKEN = :token";
+
+    }
+
+    public void enviarEmail( String para, String titulo, String codUsuario){
+
+        // URL usada para trocar a senha
         String link = "http://localhost:9000/cadastro";
 
-        repository.enviarEmail("alissonteofilo@gmail.com", "Teste Email", link);
+        // Gera o token
+        System.out.println("token: " + geraToken.getToken());
+        System.out.println("Hora atual: " + LocalDateTime.now());
+        System.out.println("Hora token: "+ geraToken.getExpiraToken()); ;
+
+        // Consulta o email do usuário logado
+        String sql = "SELECT EMAIL FROM ALISSON_DB.USUARIO WHERE ID = :codUsuario";
+        SqlParameterSource params = new MapSqlParameterSource()
+            .addValue("codUsuario", codUsuario, Types.VARCHAR);
+
+        String emailUsuario = namedJdbcTemplate.queryForObject(sql, params, String.class );
+
+        //Cria o registro em tabel do token gerado
+
+        String sql2 = "INSERT INTO ALISSON_DB.USUARIO (CODUSUARIO, TOKEN, DATATOKEN) VALUES (:token, :datatoken, :codUsuario)";
+        SqlParameterSource parametro = new MapSqlParameterSource()
+                .addValue("token", geraToken.getToken())
+                .addValue("datatoken", geraToken.getExpiraToken())
+                .addValue("codUsuario", codUsuario);
+         namedJdbcTemplate.update(sql2, parametro);
+
+        //Envia o email para o usuário
+        log.info("Enviando email");
+        var mensagem = new SimpleMailMessage();
+        mensagem.setTo(emailUsuario);
+        mensagem.setSubject(titulo);
+        mensagem.setText("Para redefinir a sua senha clique no link: " + link);
+        //javaMailSender.send(mensagem);
+        log.info("Email enviado");
+
     }
 
     public UsuarioService(JavaMailSender javaMailSender) {
@@ -63,7 +108,6 @@ public class UsuarioService {
         }
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
-
 
     public ResponseEntity<UsuarioRespose> atualizaUsuario(Usuario usuario) throws RuntimeException {
         UsuarioRespose response = new UsuarioRespose();

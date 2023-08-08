@@ -25,23 +25,6 @@ public class UsuarioRepository {
     @Autowired
     NamedParameterJdbcTemplate namedJdbcTemplate;
 
-    private final JavaMailSender javaMailSender;
-
-    public UsuarioRepository(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
-
-    public void enviarEmail( String para, String titulo, String link ){
-        log.info("Enviando email");
-        var mensagem = new SimpleMailMessage();
-        mensagem.setTo(para);
-        mensagem.setSubject(titulo);
-        mensagem.setText("Para redefinir a sua senha clique no link: " + link);
-        javaMailSender.send(mensagem);
-        log.info("Email enviado");
-
-    }
-
     public int crateUserRepository(Usuario entityUser) {
       String sql = "INSERT INTO ALISSON_DB.USUARIO(ID, NOME, SENHA) VALUES (:id,:nome,:senha)";
 

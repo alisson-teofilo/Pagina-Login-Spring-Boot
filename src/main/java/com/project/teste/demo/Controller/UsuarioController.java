@@ -4,6 +4,7 @@ import com.project.teste.demo.Dto.UsuarioRespose;
 import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Service.UsuarioService;
 import lombok.Data;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,15 @@ public class UsuarioController {
     @Autowired
     UsuarioService service;
 
-    @GetMapping("/enviaEmail")
-    public ResponseEntity<?> enviaEmail(){
-         service.enviaEmailj();
+    @PostMapping("/validaToken/{token}/{codUsuario}")
+    public ResponseEntity<?> validaToken(@PathVariable ("token") String token, @PathVariable ("codUsuario") String codUsuario){
+        service.validaToken(token, codUsuario);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/enviaEmail/{codUsuario}")
+    public ResponseEntity<?> enviaEmail(@PathVariable ("codUsuario") String codUsuario){
+         service.enviarEmail("alissonteofilo@gmail.com", "Recuperação de Senha", codUsuario);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
