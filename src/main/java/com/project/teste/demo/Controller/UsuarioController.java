@@ -2,6 +2,7 @@ package com.project.teste.demo.Controller;
 
 import com.project.teste.demo.Dto.UsuarioRespose;
 import com.project.teste.demo.Model.Usuario;
+import com.project.teste.demo.Service.GeraToken;
 import com.project.teste.demo.Service.UsuarioService;
 import lombok.Data;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
@@ -21,15 +22,15 @@ public class UsuarioController {
     @Autowired
     UsuarioService service;
 
-    @PostMapping("/validaToken/{token}/{codUsuario}")
-    public ResponseEntity<?> validaToken(@PathVariable ("token") String token, @PathVariable ("codUsuario") String codUsuario){
-        service.validaToken(token, codUsuario);
+    @PostMapping("/validaToken/{token}")
+    public ResponseEntity<?> validaToken(@PathVariable ("token") String token, Usuario modelUsuario, GeraToken classtoken){
+        service.validaToken(token, modelUsuario, classtoken);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/enviaEmail/{codUsuario}")
-    public ResponseEntity<?> enviaEmail(@PathVariable ("codUsuario") String codUsuario){
-         service.enviarEmail("alissonteofilo@gmail.com", "Recuperação de Senha", codUsuario);
+    @PostMapping("/enviaEmail")
+    public ResponseEntity<?> enviaEmail(@RequestBody Usuario modelUsuario, GeraToken classeToken){
+         service.enviarEmail(modelUsuario, classeToken);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
