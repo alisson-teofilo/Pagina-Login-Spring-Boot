@@ -27,4 +27,6 @@ public class Usuario {
     private String senha4;
     @Column (name = "EMAIL")
     private String email;
+
+    private String token;
 }

@@ -5,6 +5,7 @@ import com.project.teste.demo.Service.GeraToken;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +17,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 @Slf4j
 @Repository
@@ -33,11 +39,11 @@ public class UsuarioRepository {
         this.javaMailSender = javaMailSender;
     }
 
-    public String tokenValidoRepository(String token) {
+    public String tokenValidoRepository(Usuario modelUsuario) {
         String sql = "SELECT DATATOKEN FROM ALISSON_DB.VALIDATOKEN WHERE TOKEN = :token";
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("token", token);
-        return namedJdbcTemplate.queryForObject(sql, params, String.class);
+                .addValue("token", modelUsuario.getToken());
+      return namedJdbcTemplate.queryForObject(sql, params, String.class);
     }
 
     public String consultaEmail(Usuario modelUsuario) {
@@ -47,7 +53,7 @@ public class UsuarioRepository {
             SqlParameterSource params = new MapSqlParameterSource()
                     .addValue("codUsuario", modelUsuario.getId(), Types.VARCHAR);
 
-            retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
+           // retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,11 +65,20 @@ public class UsuarioRepository {
     public int insereTokenTabela(GeraToken classeToken, Usuario modelUsuario) {
         int retorno = 0;
         try {
+            // converte a data em String
+            DateTimeFormatter formataDataString = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String dataFormatadaString = classeToken.getDataToken().format(formataDataString);
+
+            // converte a string em LocalDate
+            DateTimeFormatter formataData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataFormatada = LocalDate.parse(dataFormatadaString, formataData);
+
             String sql2 = "INSERT INTO ALISSON_DB.VALIDATOKEN (CODUSUARIO, TOKEN, DATATOKEN) VALUES ( :codUsuario, :token, :datatoken)";
+
             SqlParameterSource parametro = new MapSqlParameterSource()
                     .addValue("codUsuario", modelUsuario.getId())
                     .addValue("token", classeToken.getToken())
-                    .addValue("datatoken", classeToken.getExpiraToken());
+                    .addValue("datatoken", dataFormatada);
             retorno = namedJdbcTemplate.update(sql2, parametro);
         } catch (Exception e) {
             e.printStackTrace();

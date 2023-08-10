@@ -19,12 +19,13 @@ import java.util.List;
 @RequestMapping("/usuario")
 
 public class UsuarioController {
+
     @Autowired
     UsuarioService service;
 
-    @PostMapping("/validaToken/{token}")
-    public ResponseEntity<?> validaToken(@PathVariable ("token") String token, Usuario modelUsuario, GeraToken classtoken){
-        service.validaToken(token, modelUsuario, classtoken);
+    @PostMapping("/validaToken")
+    public ResponseEntity<?> validaToken(@RequestBody Usuario modelUsuario, GeraToken classtoken){
+        service.validaToken(modelUsuario, classtoken);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

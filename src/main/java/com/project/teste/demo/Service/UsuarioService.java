@@ -5,22 +5,16 @@ import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 
-import java.sql.Types;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -36,12 +30,16 @@ public class UsuarioService {
 
     private final JavaMailSender javaMailSender;
 
-    public void validaToken(String token, Usuario modelUsuario, GeraToken classeToken) {
+    public void validaToken(Usuario modelUsuario, GeraToken classeToken) {
 
-        String dataTokenUsuario = repository.tokenValidoRepository(token);
+        String dataTokenUsuario = repository.tokenValidoRepository(modelUsuario);
 
-        DateTimeFormatter formataData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        LocalDateTime dataFormatada = LocalDateTime.parse(dataTokenUsuario, formataData);
+        // converte a string em LocalDate
+        DateTimeFormatter formataData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate dataFormatada = LocalDate.parse(dataTokenUsuario, formataData);
+        
+        LocalDate dataHoje = null;
+        dataHoje = LocalDate.now();
 
         if(!classeToken.ehTokenValido(dataFormatada)){
             System.out.println("Token Válido");
@@ -63,7 +61,7 @@ public class UsuarioService {
             int insereDadosTabela = repository.insereTokenTabela(classeToken, modelUsuario);
 
             // Dispara o Email
-           repository.disparaEmail(link, emailUsiario);
+             //  repository.disparaEmail(link, emailUsiario);
         } catch (Exception e){
             e.printStackTrace();
         }
