@@ -30,7 +30,11 @@ public class UsuarioService {
 
     private final JavaMailSender javaMailSender;
 
-    public void validaToken(Usuario modelUsuario, GeraToken classeToken) {
+    public UsuarioService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+
+    public UsuarioRespose validaToken(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) {
 
         String dataTokenUsuario = repository.tokenValidoRepository(modelUsuario);
 
@@ -42,47 +46,66 @@ public class UsuarioService {
         dataHoje = LocalDate.now();
 
         if(!classeToken.ehTokenValido(dataFormatada)){
-            System.out.println("Token Válido");
+            response.setSucesso(true);
+            response.setMensagem("Validado com sucesso!");
         } else {
-            System.out.println("Token expirado");
+            response.setSucesso(false);
+            response.setMensagem("Token expirado");
         }
-
+        return response;
     }
 
-    public void enviarEmail(Usuario modelUsuario, GeraToken classeToken){
-        try {
+    public UsuarioRespose enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
             // URL usada para trocar a senha
-            String link = "http://localhost:9000/cadastro";
+            String baseUrl = "http://localhost:9000/cadastro";
 
             // Consulta o email do usuário logado
             String emailUsiario = repository.consultaEmail(modelUsuario);
-
-            //Cria o registro em tabel do token gerado
+            if (emailUsiario.isEmpty()){
+                response.setSucesso(false);
+                response.setMensagem("Email não encontrado");
+                return response;
+            }else{
+                response.setSucesso(true);
+                response.setMensagem("Link de recuperação enviado no Email");
+            }
+            // Cria o registro em tabel do token gerado
             int insereDadosTabela = repository.insereTokenTabela(classeToken, modelUsuario);
+            if (insereDadosTabela != 1){
+                response.setSucesso(false);
+                response.setMensagem("Falha ao gerar token");
+                return response;
+            }
+            // Dispara Email
+              repository.disparaEmail(baseUrl, emailUsiario, classeToken);
 
-            // Dispara o Email
-             //  repository.disparaEmail(link, emailUsiario);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        return response;
     }
 
-    public UsuarioService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
 
-    public int createUserService(Usuario entityUser) {
+    public UsuarioRespose createUserService(Usuario entityUser, UsuarioRespose response) {
         int retornoRepository = repository.crateUserRepository(entityUser);
-        return retornoRepository;
+        if (retornoRepository != 1){
+            response.setSucesso(false);
+            response.setMensagem("Erro ao cadastrar usupario");
+            return response;
+        } else {
+            response.setSucesso(true);
+            response.setMensagem("Usuário cadastrado");
+        }
+        return response;
     }
 
-    public List<Usuario> listaUsuarioService() {
+    public List<Usuario> listaUsuarioService(UsuarioRespose response) {
         List<Usuario> retornoConsulta = repository.listaUsuarioRepository();
+        if(retornoConsulta.isEmpty()){
+            response.setSucesso(false);
+            response.setMensagem("Erro ao listar usuários");
+        }
         return retornoConsulta;
     }
 
-    public ResponseEntity<UsuarioRespose> loginUserService(Usuario entityUser) {
-        UsuarioRespose loginResponse = new UsuarioRespose();
+    public UsuarioRespose loginUserService(Usuario entityUser, UsuarioRespose loginResponse) {
 
         String retornoLogin = repository.validaLogin(entityUser);
 
@@ -94,7 +117,7 @@ public class UsuarioService {
             loginResponse.setMensagem("Credenciais inválidas");
         }
 
-        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+        return loginResponse;
     }
 
     public ResponseEntity<UsuarioRespose> atualizaUsuario(Usuario usuario) throws RuntimeException {
