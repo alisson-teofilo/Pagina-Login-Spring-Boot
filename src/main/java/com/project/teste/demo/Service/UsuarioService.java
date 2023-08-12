@@ -55,16 +55,17 @@ public class UsuarioService {
         return response;
     }
 
-    public UsuarioRespose enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
+    public ResponseEntity<?> enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
             // URL usada para trocar a senha
             String baseUrl = "http://localhost:9000/cadastro";
 
             // Consulta o email do usuário logado
             String emailUsiario = repository.consultaEmail(modelUsuario);
-            if (emailUsiario.isEmpty()){
+             System.out.println(emailUsiario);
+            if (emailUsiario == null ||emailUsiario.isEmpty()){
                 response.setSucesso(false);
                 response.setMensagem("Email não encontrado");
-                return response;
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }else{
                 response.setSucesso(true);
                 response.setMensagem("Link de recuperação enviado no Email");
@@ -74,12 +75,12 @@ public class UsuarioService {
             if (insereDadosTabela != 1){
                 response.setSucesso(false);
                 response.setMensagem("Falha ao gerar token");
-                return response;
+                return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
             // Dispara Email
               repository.disparaEmail(baseUrl, emailUsiario, classeToken);
 
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
@@ -120,19 +121,28 @@ public class UsuarioService {
         return loginResponse;
     }
 
-    public ResponseEntity<UsuarioRespose> atualizaUsuario(Usuario usuario) throws RuntimeException {
-        UsuarioRespose response = new UsuarioRespose();
+    public ResponseEntity<?> atualizaUsuario(Usuario usuario, UsuarioRespose response) throws RuntimeException {
 
         try {
-            String validaSenhas = repository.validaSenhas(usuario);
+            // valida ID
+            String validaId = repository.validaId(usuario);
+            if(validaId == null || validaId.isEmpty()){
+                response.setSucesso(false);
+                response.setMensagem("Erro. Usuário não encontrado");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
 
+            // Valida Senha
+            String validaSenhas = repository.validaSenhas(usuario);
             if (validaSenhas.equals("1")){
                 response.setSucesso(true);
                 response.setMensagem("Atualização realizada com sucesso. ");
             }else{
                 response.setSucesso(false);
                 response.setMensagem("Erro. A senha ja foi utilizada. ");
+                return new ResponseEntity<>(response, HttpStatus.CONFLICT);
             }
+            // Atualzia usuário
             repository.atualizaUsuario(usuario);
 
         } catch (Exception e) {

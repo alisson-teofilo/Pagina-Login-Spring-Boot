@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Usuario {
     @Id
     @Column (name = "ID")
-    private int id;
+    private String id;
     @Column (name = "NOME")
     private String nome;
     @Column(name ="SENHA")

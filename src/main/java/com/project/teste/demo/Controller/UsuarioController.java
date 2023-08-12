@@ -29,8 +29,7 @@ public class UsuarioController {
 
     @PostMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(@RequestBody Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
-       UsuarioRespose retorno = service.enviarEmail(modelUsuario, classeToken, response);
-        return new ResponseEntity<>(retorno, HttpStatus.OK);
+       return service.enviarEmail(modelUsuario, classeToken, response);
     }
 
     @PostMapping("/login")
@@ -52,12 +51,10 @@ public class UsuarioController {
 
     }
 
-    @PostMapping("/atualizaCadastro")
-    public ResponseEntity<UsuarioRespose> updateUsuario(@RequestBody Usuario entityUsuario) {
-        ResponseEntity<UsuarioRespose> responseEntity = service.atualizaUsuario(entityUsuario);
-        return responseEntity;
+    @PutMapping("/atualizaCadastro")
+    public ResponseEntity<?> updateUsuario(@RequestBody Usuario entityUsuario, UsuarioRespose response) {
+        return service.atualizaUsuario(entityUsuario, response);
     }
-
 
 
 }

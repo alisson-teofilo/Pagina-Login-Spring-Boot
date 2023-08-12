@@ -3,6 +3,7 @@ package com.project.teste.demo.Repository;
 import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Service.GeraToken;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
@@ -57,12 +58,12 @@ public class UsuarioRepository {
     public String consultaEmail(Usuario modelUsuario) {
         String retorno = null;
         try {
-            String sql = "SELECT EMAIL FROM ALISSON_DB.USUARIO WHERE ID = :codUsuario";
+            String sql = "SELECT EMAIL FROM ALISSON_DB.USUARIOS WHERE ID = :id";
+
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("codUsuario", modelUsuario.getId(), Types.VARCHAR);
+                    .addValue("id", modelUsuario.getId());
 
-            retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
-
+           retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e) {
             e.printStackTrace();
         }
@@ -112,7 +113,7 @@ public class UsuarioRepository {
     public int crateUserRepository(Usuario entityUser) {
         int retorno = 0;
         try {
-            String sql = "INSERT INTO ALISSON_DB.USUARIO(ID, NOME, SENHA) VALUES (:id,:nome,:senha)";
+            String sql = "INSERT INTO ALISSON_DB.USUARIOS(ID, NOME, SENHA) VALUES (:id,:nome,:senha)";
 
             SqlParameterSource params = new MapSqlParameterSource()
                     .addValue("id", entityUser.getId())
@@ -128,7 +129,7 @@ public class UsuarioRepository {
     public List<Usuario> listaUsuarioRepository() {
         List<Usuario> usuarios = null;
         try {
-            String sql = "SELECT ID, NOME FROM ALISSON_DB.USUARIO";
+            String sql = "SELECT ID, NOME FROM ALISSON_DB.USUARIOS";
              usuarios = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Usuario.class));
         } catch (DataAccessException e){
             e.printStackTrace();
@@ -136,18 +137,61 @@ public class UsuarioRepository {
        return usuarios;
     }
 
+    public String validaLogin(Usuario entityUser) {
+        String retorno = null;
+        try {
+            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON_DB.USUARIOS WHERE EMAIL = ? AND SENHA = ?) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
+            retorno = jdbcTemplate.queryForObject(sql, String.class, entityUser.getEmail(), entityUser.getSenha());
+        } catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return retorno;
+    }
+
+    public String validaId(Usuario usuario) {
+        String retorno = null;
+        try {
+            String sql = "SELECT ID FROM ALISSON_DB.USUARIOS WHERE ID = :id";
+            SqlParameterSource params = new MapSqlParameterSource()
+                    .addValue("id", usuario.getId(), Types.VARCHAR);
+               retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return retorno;
+    }
+
+    public String validaSenhas(Usuario usuario) {
+        String retorno = null;
+        try {
+            try {
+                String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON_DB.USUARIOS WHERE ID = ? AND (SENHA != ? AND SENHA2 != ?)) THEN 1 ELSE 0 END AS SENHA_VALIDA FROM DUAL";
+                retorno = jdbcTemplate.queryForObject(sql, String.class, usuario.getId(), usuario.getSenha(), usuario.getSenha());
+            } catch (DataAccessException e) {
+                e.printStackTrace();
+            }
+        } catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return retorno;
+    }
+
     public int atualizaUsuario(Usuario usuario) {
         int retorno = 0;
         try {
             String sql =
-                  " UPDATE \n" +
-                  " USUARIO \n" +
-                  " SET \n" +
-                  " NOME = :nome \n" +
-                  " WHERE ID = :id \n";
+                    " UPDATE \n" +
+                    " ALISSON_DB.USUARIOS \n" +
+                    " SET \n" +
+                    " NOME = :nome, \n"+
+                    " SENHA3 = SENHA2, \n" +
+                    " SENHA2 = SENHA, \n" +
+                    " SENHA = :senha \n" +
+                    " WHERE ID = :id ";
 
             SqlParameterSource params = new MapSqlParameterSource()
                     .addValue("nome", usuario.getNome(), Types.VARCHAR)
+                    .addValue("senha", usuario.getSenha(), Types.VARCHAR)
                     .addValue("id", usuario.getId(), Types.VARCHAR);
             retorno = namedJdbcTemplate.update(sql, params);
         } catch (DataAccessException e) {
@@ -157,27 +201,7 @@ public class UsuarioRepository {
         return retorno;
     }
 
-    public String validaLogin(Usuario entityUser) {
-        String retorno = null;
-        try {
-            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON_DB.USUARIO WHERE EMAIL = ? AND SENHA = ?) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
-            retorno = jdbcTemplate.queryForObject(sql, String.class, entityUser.getEmail(), entityUser.getSenha());
-        } catch (DataAccessException e){
-            e.printStackTrace();
-        }
-        return retorno;
-    }
 
-    public String validaSenhas(Usuario usuario) {
-        String retorno = null;
-        try {
-            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON_DB.USUARIO WHERE ID = ? AND (SENHA != ? AND SENHA2 != ?)) THEN 1 ELSE 0 END AS SENHA_VALIDA FROM DUAL";
-            retorno = jdbcTemplate.queryForObject(sql, String.class, usuario.getId(), usuario.getSenha(), usuario.getSenha());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        }
-        return retorno;
-    }
 }
 
 
