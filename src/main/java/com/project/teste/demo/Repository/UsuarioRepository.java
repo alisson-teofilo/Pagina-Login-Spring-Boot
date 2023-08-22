@@ -107,7 +107,6 @@ public class UsuarioRepository {
        } catch (MailException e) {
            e.printStackTrace();
        }
-
     }
 
     public int crateUserRepository(Usuario entityUser) {
@@ -140,8 +139,8 @@ public class UsuarioRepository {
     public String validaLogin(Usuario entityUser) {
         String retorno = null;
         try {
-            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON_DB.USUARIOS WHERE EMAIL = ? AND SENHA = ?) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
-            retorno = jdbcTemplate.queryForObject(sql, String.class, entityUser.getEmail(), entityUser.getSenha());
+            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON_DB.USUARIOS WHERE ID = ? AND SENHA = ?) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
+            retorno = jdbcTemplate.queryForObject(sql, String.class, entityUser.getId(), entityUser.getSenha());
         } catch (DataAccessException e){
             e.printStackTrace();
         }
@@ -200,8 +199,6 @@ public class UsuarioRepository {
 
         return retorno;
     }
-
-
 }
 
 

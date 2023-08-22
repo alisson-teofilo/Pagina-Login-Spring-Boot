@@ -5,6 +5,9 @@ import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Service.GeraToken;
 import com.project.teste.demo.Service.UsuarioService;
 import lombok.Data;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,8 @@ import java.util.List;
 
 public class UsuarioController {
 
+    Logger logger = LogManager.getLogger(UsuarioController.class);
+
     @Autowired
     UsuarioService service;
 
@@ -29,6 +34,12 @@ public class UsuarioController {
 
     @PostMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(@RequestBody Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
+        logger.trace("TRACE");
+        logger.debug("DEBUG");
+        logger.info("INFO");
+        logger.warn("WARN");
+        logger.error("ERROR");
+        logger.fatal("FATAL");
        return service.enviarEmail(modelUsuario, classeToken, response);
     }
 
