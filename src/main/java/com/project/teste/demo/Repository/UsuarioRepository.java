@@ -42,7 +42,7 @@ public class UsuarioRepository {
         this.javaMailSender = javaMailSender;
     }
 
-    public String tokenValidoRepository(Usuario modelUsuario) {
+    public String tokenValidoRepository(Usuario modelUsuario) throws DataAccessException {
         String retorno = null;
         try {
             String sql = "SELECT DATATOKEN FROM ALISSON_DB.VALIDATOKEN WHERE TOKEN = :token";
@@ -50,7 +50,7 @@ public class UsuarioRepository {
                     .addValue("token", modelUsuario.getToken());
             retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e){
-            e.printStackTrace();
+           throw new DataAccessException("Erro de validação") {};
         }
         return retorno;
     }
@@ -95,7 +95,7 @@ public class UsuarioRepository {
         return retorno;
     }
 
-    public void disparaEmail(String baseUrl, String emailUsiario,GeraToken classeToken) {
+    public void disparaEmail(String baseUrl, String emailUsiario,GeraToken classeToken) throws MailException {
        try {
            String paramsUrl = "?params=";
            //Envia o email para o usuário
@@ -105,7 +105,7 @@ public class UsuarioRepository {
            mensagem.setText("Para redefinir a sua senha clique no link: " + baseUrl + paramsUrl + classeToken.getToken());
            javaMailSender.send(mensagem);
        } catch (MailException e) {
-           e.printStackTrace();
+           throw new MailException("Erro ao enviar Email"){};
        }
     }
 

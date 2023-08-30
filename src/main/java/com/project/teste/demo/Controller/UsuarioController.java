@@ -1,6 +1,7 @@
 package com.project.teste.demo.Controller;
 
 import com.project.teste.demo.Dto.UsuarioRespose;
+import com.project.teste.demo.Exception.InvalidToken;
 import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Service.GeraToken;
 import com.project.teste.demo.Service.UsuarioService;
@@ -9,6 +10,7 @@ import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,18 +30,17 @@ public class UsuarioController {
 
     @PostMapping("/validaToken")
     public ResponseEntity<?> validaToken(@RequestBody Usuario modelUsuario, GeraToken classtoken, UsuarioRespose response){
-        UsuarioRespose retorno = service.validaToken(modelUsuario, classtoken, response);
-        return new ResponseEntity<>(retorno,HttpStatus.OK);
+            UsuarioRespose retorno;
+        try {
+            service.validaToken(modelUsuario, classtoken, response);
+        } catch (DataAccessException | InvalidToken e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(@RequestBody Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
-        logger.trace("TRACE");
-        logger.debug("DEBUG");
-        logger.info("INFO");
-        logger.warn("WARN");
-        logger.error("ERROR");
-        logger.fatal("FATAL");
        return service.enviarEmail(modelUsuario, classeToken, response);
     }
 

@@ -1,14 +1,17 @@
 package com.project.teste.demo.Service;
 
 import com.project.teste.demo.Dto.UsuarioRespose;
+import com.project.teste.demo.Exception.InvalidToken;
 import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -34,10 +37,8 @@ public class UsuarioService {
         this.javaMailSender = javaMailSender;
     }
 
-    public UsuarioRespose validaToken(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) {
-
+    public void validaToken(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws DataAccessException, InvalidToken {
         String dataTokenUsuario = repository.tokenValidoRepository(modelUsuario);
-
         // converte a string em LocalDate
         DateTimeFormatter formataData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDate dataFormatada = LocalDate.parse(dataTokenUsuario, formataData);
@@ -45,17 +46,12 @@ public class UsuarioService {
         LocalDate dataHoje = null;
         dataHoje = LocalDate.now();
 
-        if(!classeToken.ehTokenValido(dataFormatada)){
-            response.setSucesso(true);
-            response.setMensagem("Validado com sucesso!");
-        } else {
-            response.setSucesso(false);
-            response.setMensagem("Token expirado");
+        if(classeToken.ehTokenValido(dataFormatada)){
+            throw new InvalidToken("Token expirado");
         }
-        return response;
     }
 
-    public ResponseEntity<?> enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
+    public ResponseEntity<?> enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws MailException {
             // URL usada para trocar a senha
             String baseUrl = "http://localhost:9000/cadastro";
 
