@@ -1,7 +1,7 @@
 package com.project.teste.demo.Service;
 
 import com.project.teste.demo.Dto.UsuarioRespose;
-import com.project.teste.demo.Exception.InvalidToken;
+import com.project.teste.demo.Exception.RegrasNegocioException;
 import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class UsuarioService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void validaToken(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws DataAccessException, InvalidToken {
+    public void validaToken(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws DataAccessException, RegrasNegocioException {
         String dataTokenUsuario = repository.tokenValidoRepository(modelUsuario);
         // converte a string em LocalDate
         DateTimeFormatter formataData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -47,11 +47,11 @@ public class UsuarioService {
         dataHoje = LocalDate.now();
 
         if(classeToken.ehTokenValido(dataFormatada)){
-            throw new InvalidToken("Token expirado");
+            throw new RegrasNegocioException("Token expirado");
         }
     }
 
-    public ResponseEntity<?> enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws MailException {
+    public ResponseEntity<?> enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws MailException, DataAccessException, RegrasNegocioException {
             // URL usada para trocar a senha
             String baseUrl = "http://localhost:9000/cadastro";
 
@@ -59,19 +59,12 @@ public class UsuarioService {
             String emailUsiario = repository.consultaEmail(modelUsuario);
              System.out.println(emailUsiario);
             if (emailUsiario == null ||emailUsiario.isEmpty()){
-                response.setSucesso(false);
-                response.setMensagem("Email não encontrado");
-                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            }else{
-                response.setSucesso(true);
-                response.setMensagem("Link de recuperação enviado no Email");
+                throw new RegrasNegocioException ("Email não encontrado");
             }
             // Cria o registro em tabel do token gerado
             int insereDadosTabela = repository.insereTokenTabela(classeToken, modelUsuario);
             if (insereDadosTabela != 1){
-                response.setSucesso(false);
-                response.setMensagem("Falha ao gerar token");
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
+                throw new DataAccessException("Erro ao gerar token") {};
             }
             // Dispara Email
               repository.disparaEmail(baseUrl, emailUsiario, classeToken);
@@ -79,73 +72,44 @@ public class UsuarioService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-    public UsuarioRespose createUserService(Usuario entityUser, UsuarioRespose response) {
-        int retornoRepository = repository.crateUserRepository(entityUser);
-        if (retornoRepository != 1){
-            response.setSucesso(false);
-            response.setMensagem("Erro ao cadastrar usupario");
-            return response;
-        } else {
-            response.setSucesso(true);
-            response.setMensagem("Usuário cadastrado");
+    public UsuarioRespose loginUserService(Usuario entityUser, UsuarioRespose loginResponse) throws RegrasNegocioException {
+        String retornoLogin = repository.validaLogin(entityUser);
+        if (!retornoLogin.equals("1")){
+            throw new RegrasNegocioException("Credenciais inválidas") {};
         }
-        return response;
+        return loginResponse;
     }
 
-    public List<Usuario> listaUsuarioService(UsuarioRespose response) {
+
+    public void createUserService(Usuario entityUser, UsuarioRespose response) throws DataAccessException{
+        int retornoRepository = repository.crateUserRepository(entityUser);
+        if (retornoRepository != 1){
+            throw new DataAccessException("Erro ao cadastrar usuário") {};
+        }
+    }
+
+    public List<Usuario> listaUsuarioService(UsuarioRespose response) throws DataAccessException, RegrasNegocioException {
         List<Usuario> retornoConsulta = repository.listaUsuarioRepository();
         if(retornoConsulta.isEmpty()){
-            response.setSucesso(false);
-            response.setMensagem("Erro ao listar usuários");
+            throw new RegrasNegocioException("Erro ao listar usuários"){};
         }
         return retornoConsulta;
     }
 
-    public UsuarioRespose loginUserService(Usuario entityUser, UsuarioRespose loginResponse) {
-
-        String retornoLogin = repository.validaLogin(entityUser);
-
-        if (retornoLogin.equals("1")){
-            loginResponse.setSucesso(true);
-            loginResponse.setMensagem("Login efetuado com sucesso");
-        } else{
-            loginResponse.setSucesso(false);
-            loginResponse.setMensagem("Credenciais inválidas");
-        }
-
-        return loginResponse;
-    }
-
-    public ResponseEntity<?> atualizaUsuario(Usuario usuario, UsuarioRespose response) throws RuntimeException {
-
-        try {
+    public void atualizaUsuario(Usuario usuario, UsuarioRespose response) throws DataAccessException, RegrasNegocioException {
             // valida ID
             String validaId = repository.validaId(usuario);
             if(validaId == null || validaId.isEmpty()){
-                response.setSucesso(false);
-                response.setMensagem("Erro. Usuário não encontrado");
-                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+                throw new RegrasNegocioException("Usuário não encontrado");
             }
 
             // Valida Senha
             String validaSenhas = repository.validaSenhas(usuario);
-            if (validaSenhas.equals("1")){
-                response.setSucesso(true);
-                response.setMensagem("Atualização realizada com sucesso. ");
-            }else{
-                response.setSucesso(false);
-                response.setMensagem("Erro. A senha ja foi utilizada. ");
-                return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+            if (!validaSenhas.equals("1")){
+                throw new RegrasNegocioException("Erro. A senha ja foi utilizada. ");
             }
             // Atualzia usuário
             repository.atualizaUsuario(usuario);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
