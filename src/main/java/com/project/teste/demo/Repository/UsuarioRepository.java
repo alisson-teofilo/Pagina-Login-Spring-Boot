@@ -1,5 +1,6 @@
 package com.project.teste.demo.Repository;
 
+import com.project.teste.demo.Dto.DtoResponse;
 import com.project.teste.demo.Exception.NotFound;
 import com.project.teste.demo.Model.Usuario;
 import com.project.teste.demo.Service.GeraToken;
@@ -137,13 +138,31 @@ public class UsuarioRepository {
        return usuarios;
     }
 
+    public String validaRe(Usuario entityUser) throws DataAccessException {
+        String retorno = null;
+        try {
+            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM USUARIOS WHERE ID = :id) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
+            SqlParameterSource params = new MapSqlParameterSource()
+                    .addValue("id", entityUser.getId(), Types.VARCHAR);
+            retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            throw new DataAccessException("Erro ao validar"){};
+        }
+        return retorno;
+    }
+
     public String validaLogin(Usuario entityUser) throws DataAccessException {
         String retorno = null;
         try {
-            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = ? AND SENHA = ?) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
-            retorno = jdbcTemplate.queryForObject(sql, String.class, entityUser.getId(), entityUser.getSenha());
+            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM USUARIOS WHERE ID = :id AND SENHA = :senha) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
+            SqlParameterSource params = new MapSqlParameterSource()
+                    .addValue("id", entityUser.getId(), Types.VARCHAR)
+                    .addValue("senha", entityUser.getSenha(), Types.VARCHAR);
+            retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e){
-            throw new DataAccessException("Erro ao enviar Email"){};
+            e.printStackTrace();
+            throw new DataAccessException("Erro ao validar"){};
         }
         return retorno;
     }

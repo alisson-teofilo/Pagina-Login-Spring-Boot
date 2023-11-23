@@ -1,5 +1,6 @@
 package com.project.teste.demo.Service;
 
+import com.project.teste.demo.Dto.DtoResponse;
 import com.project.teste.demo.Dto.UsuarioRespose;
 import com.project.teste.demo.Exception.RegrasNegocioException;
 import com.project.teste.demo.Model.Usuario;
@@ -72,12 +73,18 @@ public class UsuarioService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public UsuarioRespose loginUserService(Usuario entityUser, UsuarioRespose loginResponse) throws RegrasNegocioException {
-        String retornoLogin = repository.validaLogin(entityUser);
-        if (!retornoLogin.equals("1")){
+    public void loginUserService(Usuario entityUser, UsuarioRespose loginResponse) throws RegrasNegocioException {
+
+        String validaRE = repository.validaRe(entityUser);
+        if (!validaRE.equals("1")){
+            throw new RegrasNegocioException("Usuário não cadastrado") {};
+        }
+
+        String ehLoginValido = repository.validaLogin(entityUser);
+        if (!ehLoginValido.equals("1")){
             throw new RegrasNegocioException("Credenciais inválidas") {};
         }
-        return loginResponse;
+
     }
 
 
@@ -88,7 +95,7 @@ public class UsuarioService {
         }
     }
 
-    public List<Usuario> listaUsuarioService(UsuarioRespose response) throws DataAccessException, RegrasNegocioException {
+    public List<Usuario> listaUsuarioService() throws DataAccessException, RegrasNegocioException {
         List<Usuario> retornoConsulta = repository.listaUsuarioRepository();
         if(retornoConsulta.isEmpty()){
             throw new RegrasNegocioException("Erro ao listar usuários"){};

@@ -1,5 +1,6 @@
 package com.project.teste.demo.Controller;
 
+import com.project.teste.demo.Dto.DtoResponse;
 import com.project.teste.demo.Dto.UsuarioRespose;
 import com.project.teste.demo.Exception.RegrasNegocioException;
 import com.project.teste.demo.Model.Usuario;
@@ -7,6 +8,8 @@ import com.project.teste.demo.Service.GeraToken;
 import com.project.teste.demo.Service.UsuarioService;
 import lombok.Data;
 
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -23,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuario")
 
+@Slf4j
 public class UsuarioController {
 
     Logger logger = LogManager.getLogger(UsuarioController.class);
@@ -32,6 +37,7 @@ public class UsuarioController {
 
     @PostMapping("/validaToken")
     public ResponseEntity<?> validaToken(@RequestBody Usuario modelUsuario, GeraToken classtoken, UsuarioRespose response){
+        logger.info("Validar Token");
             UsuarioRespose retorno;
         try {
             service.validaToken(modelUsuario, classtoken, response);
@@ -42,6 +48,7 @@ public class UsuarioController {
     }
     @PostMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(@RequestBody Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
+        logger.info("Enviar Email");
         try {
             service.enviarEmail(modelUsuario, classeToken, response);
         } catch (MailException| DataAccessException | RegrasNegocioException e){
@@ -51,8 +58,9 @@ public class UsuarioController {
     }
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Usuario entityUser, UsuarioRespose loginResponse){
+        logger.info("Logar Usuario");
         try {
-            UsuarioRespose retornoService = service.loginUserService(entityUser, loginResponse);
+            service.loginUserService(entityUser, loginResponse);
         }catch (RegrasNegocioException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -61,6 +69,7 @@ public class UsuarioController {
 
     @PostMapping("/cadastrarUsuario")
     public ResponseEntity<?> createUser(@RequestBody Usuario entityUser, UsuarioRespose respose){
+        logger.info("Cadastrar Usuarios");
         try {
             service.createUserService(entityUser, respose);
         } catch (DataAccessException e){
@@ -69,18 +78,21 @@ public class UsuarioController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/listaUsuarios")
-    public ResponseEntity<?> listaUsuariosController(UsuarioRespose response){
+    public ResponseEntity<List<DtoResponse>> listaUsuariosController() {
+        logger.info("Listar Usuarios");
         List<Usuario> retornoLista = null;
-        try{
-             retornoLista = service.listaUsuarioService(response);
-        }catch (DataAccessException | RegrasNegocioException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        try {
+            retornoLista = service.listaUsuarioService();
+            List<DtoResponse> dtoResponseList = DtoResponse.convert(retornoLista);
+            return ResponseEntity.ok(dtoResponseList);
+        } catch (DataAccessException | RegrasNegocioException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonList(new DtoResponse(e.getMessage())));
         }
-        return new ResponseEntity<>(retornoLista, HttpStatus.OK);
-
     }
+
     @PutMapping("/atualizaCadastro")
     public ResponseEntity<?> updateUsuario(@RequestBody Usuario entityUsuario, UsuarioRespose response) {
+        logger.info("Atualizar Usuários");
         try{
             service.atualizaUsuario(entityUsuario, response);
         } catch (DataAccessException | RegrasNegocioException e){

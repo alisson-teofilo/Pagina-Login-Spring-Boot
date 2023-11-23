@@ -1,11 +1,15 @@
 package com.project.teste.demo.Model;
 
+import com.project.teste.demo.Dto.DtoResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -29,4 +33,5 @@ public class Usuario {
     private String email;
 
     private String token;
+
 }
