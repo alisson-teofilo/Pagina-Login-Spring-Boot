@@ -1,14 +1,12 @@
-package com.project.teste.demo.Controller;
+package com.project.demo.Controller;
 
-import com.project.teste.demo.Dto.DtoResponse;
-import com.project.teste.demo.Dto.UsuarioRespose;
-import com.project.teste.demo.Exception.RegrasNegocioException;
-import com.project.teste.demo.Model.Usuario;
-import com.project.teste.demo.Service.GeraToken;
-import com.project.teste.demo.Service.UsuarioService;
+import com.project.demo.Dto.UsuarioResponseDTO;
+import com.project.demo.Dto.UsuarioRequestDTO;
+import com.project.demo.Exception.RegrasNegocioException;
+import com.project.demo.Model.Usuario;
+import com.project.demo.Service.GeraToken;
+import com.project.demo.Service.UsuarioService;
 import lombok.Data;
-
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,31 +34,31 @@ public class UsuarioController {
     UsuarioService service;
 
     @PostMapping("/validaToken")
-    public ResponseEntity<?> validaToken(@RequestBody Usuario modelUsuario, GeraToken classtoken, UsuarioRespose response){
+    public ResponseEntity<?> validaToken(@RequestBody UsuarioRequestDTO usuarioRequestDTO, GeraToken classtoken, UsuarioRequestDTO response){
         logger.info("Validar Token");
-            UsuarioRespose retorno;
+            UsuarioRequestDTO retorno;
         try {
-            service.validaToken(modelUsuario, classtoken, response);
+            service.validaToken(usuarioRequestDTO, classtoken, response);
         } catch (DataAccessException | RegrasNegocioException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/enviaEmail")
-    public ResponseEntity<?> enviaEmail(@RequestBody Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response){
+    public ResponseEntity<?> enviaEmail(@RequestBody UsuarioRequestDTO usuarioRequestDTO, GeraToken classeToken){
         logger.info("Enviar Email");
         try {
-            service.enviarEmail(modelUsuario, classeToken, response);
+            service.enviarEmail(usuarioRequestDTO, classeToken);
         } catch (MailException| DataAccessException | RegrasNegocioException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("As instruções foram enviadas no seu Email.");
     }
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Usuario entityUser, UsuarioRespose loginResponse){
+    @PostMapping("/efetuarLogin")
+    public ResponseEntity<?> loginUser(@RequestBody UsuarioRequestDTO usuarioRequestDTO){
         logger.info("Logar Usuario");
         try {
-            service.loginUserService(entityUser, loginResponse);
+            service.loginUserService(usuarioRequestDTO);
         }catch (RegrasNegocioException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -68,33 +66,32 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastrarUsuario")
-    public ResponseEntity<?> createUser(@RequestBody Usuario entityUser, UsuarioRespose respose){
+    public ResponseEntity<?> createUser(@RequestBody UsuarioRequestDTO usuarioRequestDTO){
         logger.info("Cadastrar Usuarios");
         try {
-            service.createUserService(entityUser, respose);
+            service.createUserService(usuarioRequestDTO);
         } catch (DataAccessException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/listaUsuarios")
-    public ResponseEntity<List<DtoResponse>> listaUsuariosController() {
+    public ResponseEntity<List<?>> listaUsuariosController() {
         logger.info("Listar Usuarios");
-        List<Usuario> retornoLista = null;
+        List<UsuarioResponseDTO> retornoLista = null;
         try {
             retornoLista = service.listaUsuarioService();
-            List<DtoResponse> dtoResponseList = DtoResponse.convert(retornoLista);
-            return ResponseEntity.ok(dtoResponseList);
+            return ResponseEntity.ok(retornoLista);
         } catch (DataAccessException | RegrasNegocioException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonList(new DtoResponse(e.getMessage())));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonList(new UsuarioResponseDTO(e.getMessage())));
         }
     }
 
     @PutMapping("/atualizaCadastro")
-    public ResponseEntity<?> updateUsuario(@RequestBody Usuario entityUsuario, UsuarioRespose response) {
+    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioRequestDTO usuarioRequestDTO) {
         logger.info("Atualizar Usuários");
         try{
-            service.atualizaUsuario(entityUsuario, response);
+            service.atualizaUsuario(usuarioRequestDTO);
         } catch (DataAccessException | RegrasNegocioException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

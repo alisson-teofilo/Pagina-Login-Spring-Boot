@@ -1,15 +1,12 @@
-package com.project.teste.demo.Model;
+package com.project.demo.Model;
 
-import com.project.teste.demo.Dto.DtoResponse;
+import com.project.demo.Dto.UsuarioResponseDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -33,5 +30,11 @@ public class Usuario {
     private String email;
 
     private String token;
+
+    public UsuarioResponseDTO usuarioToDto(UsuarioResponseDTO usuarioResponseDTO){
+        this.id = usuarioResponseDTO.getId();
+        this.nome = usuarioResponseDTO.getNome();
+        return usuarioResponseDTO;
+    }
 
 }

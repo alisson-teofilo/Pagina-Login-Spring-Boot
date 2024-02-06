@@ -76,7 +76,20 @@
 			<version>3.1.2</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc10</artifactId> <!-- ou ojdbc8 dependendo da versão do Oracle -->
+			<version>19.3.0.0</version> <!-- Substitua pela versão adequada -->
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

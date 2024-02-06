@@ -1,22 +1,20 @@
-package com.project.teste.demo.Service;
+package com.project.demo.Service;
 
-import com.project.teste.demo.Dto.DtoResponse;
-import com.project.teste.demo.Dto.UsuarioRespose;
-import com.project.teste.demo.Exception.RegrasNegocioException;
-import com.project.teste.demo.Model.Usuario;
-import com.project.teste.demo.Repository.UsuarioRepository;
+import com.project.demo.Dto.UsuarioResponseDTO;
+import com.project.demo.Model.Usuario;
+import com.project.demo.Dto.UsuarioRequestDTO;
+import com.project.demo.Exception.RegrasNegocioException;
+import com.project.demo.Repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -38,8 +36,8 @@ public class UsuarioService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void validaToken(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws DataAccessException, RegrasNegocioException {
-        String dataTokenUsuario = repository.tokenValidoRepository(modelUsuario);
+    public void validaToken(UsuarioRequestDTO usuarioRequestDTO, GeraToken classeToken, UsuarioRequestDTO response) throws DataAccessException, RegrasNegocioException {
+        String dataTokenUsuario = repository.tokenValidoRepository(usuarioRequestDTO);
         // converte a string em LocalDate
         DateTimeFormatter formataData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDate dataFormatada = LocalDate.parse(dataTokenUsuario, formataData);
@@ -52,35 +50,41 @@ public class UsuarioService {
         }
     }
 
-    public ResponseEntity<?> enviarEmail(Usuario modelUsuario, GeraToken classeToken, UsuarioRespose response) throws MailException, DataAccessException, RegrasNegocioException {
+    public void enviarEmail(UsuarioRequestDTO usuarioRequestDTO, GeraToken classeToken) throws MailException, DataAccessException, RegrasNegocioException {
+
             // URL usada para trocar a senha
             String baseUrl = "http://localhost:9000/cadastro";
 
-            // Consulta o email do usuário logado
-            String emailUsiario = repository.consultaEmail(modelUsuario);
-             System.out.println(emailUsiario);
+             // valida ID
+            String validaId = repository.validaId(usuarioRequestDTO);
+            System.out.println(validaId);
+            if(validaId == null || validaId.isEmpty()){
+                throw new RegrasNegocioException("Usuário não encontrado");
+            }
+
+             // Consulta o email do usuário logado
+            String emailUsiario = repository.consultaEmail(usuarioRequestDTO);
+
             if (emailUsiario == null ||emailUsiario.isEmpty()){
                 throw new RegrasNegocioException ("Email não encontrado");
             }
             // Cria o registro em tabel do token gerado
-            int insereDadosTabela = repository.insereTokenTabela(classeToken, modelUsuario);
+            int insereDadosTabela = repository.insereTokenTabela(classeToken, usuarioRequestDTO);
             if (insereDadosTabela != 1){
                 throw new DataAccessException("Erro ao gerar token") {};
             }
             // Dispara Email
               repository.disparaEmail(baseUrl, emailUsiario, classeToken);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public void loginUserService(Usuario entityUser, UsuarioRespose loginResponse) throws RegrasNegocioException {
+    public void loginUserService(UsuarioRequestDTO usuarioRequestDTO) throws RegrasNegocioException {
 
-        String validaRE = repository.validaRe(entityUser);
+        String validaRE = repository.validaRe(usuarioRequestDTO);
         if (!validaRE.equals("1")){
             throw new RegrasNegocioException("Usuário não cadastrado") {};
         }
 
-        String ehLoginValido = repository.validaLogin(entityUser);
+        String ehLoginValido = repository.validaLogin(usuarioRequestDTO);
         if (!ehLoginValido.equals("1")){
             throw new RegrasNegocioException("Credenciais inválidas") {};
         }
@@ -88,35 +92,37 @@ public class UsuarioService {
     }
 
 
-    public void createUserService(Usuario entityUser, UsuarioRespose response) throws DataAccessException{
-        int retornoRepository = repository.crateUserRepository(entityUser);
+    public void createUserService(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException{
+        int retornoRepository = repository.crateUserRepository(usuarioRequestDTO);
         if (retornoRepository != 1){
             throw new DataAccessException("Erro ao cadastrar usuário") {};
         }
     }
 
-    public List<Usuario> listaUsuarioService() throws DataAccessException, RegrasNegocioException {
+    public List<UsuarioResponseDTO> listaUsuarioService() throws DataAccessException, RegrasNegocioException {
+
         List<Usuario> retornoConsulta = repository.listaUsuarioRepository();
+
         if(retornoConsulta.isEmpty()){
             throw new RegrasNegocioException("Erro ao listar usuários"){};
         }
-        return retornoConsulta;
+        return UsuarioResponseDTO.convert(retornoConsulta);
     }
 
-    public void atualizaUsuario(Usuario usuario, UsuarioRespose response) throws DataAccessException, RegrasNegocioException {
+    public void atualizaUsuario(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException, RegrasNegocioException {
             // valida ID
-            String validaId = repository.validaId(usuario);
+            String validaId = repository.validaId(usuarioRequestDTO);
             if(validaId == null || validaId.isEmpty()){
                 throw new RegrasNegocioException("Usuário não encontrado");
             }
 
             // Valida Senha
-            String validaSenhas = repository.validaSenhas(usuario);
+            String validaSenhas = repository.validaSenhas(usuarioRequestDTO);
             if (!validaSenhas.equals("1")){
                 throw new RegrasNegocioException("Erro. A senha ja foi utilizada. ");
             }
             // Atualzia usuário
-            repository.atualizaUsuario(usuario);
+            repository.atualizaUsuario(usuarioRequestDTO);
     }
 
 }

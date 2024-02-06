@@ -1,9 +1,7 @@
-package com.project.teste.demo.Teste;
+package com.project.demo.Teste;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
-import java.util.Arrays;
 
 public class TesteConversaoJson {
     public static void main(String[] args) {

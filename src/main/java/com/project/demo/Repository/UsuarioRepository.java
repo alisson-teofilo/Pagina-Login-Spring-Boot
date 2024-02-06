@@ -1,14 +1,11 @@
-package com.project.teste.demo.Repository;
+package com.project.demo.Repository;
 
-import com.project.teste.demo.Dto.DtoResponse;
-import com.project.teste.demo.Exception.NotFound;
-import com.project.teste.demo.Model.Usuario;
-import com.project.teste.demo.Service.GeraToken;
+import com.project.demo.Dto.UsuarioRequestDTO;
+import com.project.demo.Model.Usuario;
+import com.project.demo.Service.GeraToken;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
-import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -22,11 +19,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 @Slf4j
 @Repository
@@ -44,37 +38,31 @@ public class UsuarioRepository {
         this.javaMailSender = javaMailSender;
     }
 
-    public String tokenValidoRepository(Usuario modelUsuario) throws DataAccessException {
-        String retorno = null;
+    public String tokenValidoRepository(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
             String sql = "SELECT DATATOKEN FROM ALISSON.VALIDATOKEN WHERE TOKEN = :token";
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("token", modelUsuario.getToken());
-            retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
+                    .addValue("token", usuarioRequestDTO.getToken());
+            return namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e){
             throw new DataAccessException("Erro de validação") {};
         }
-        return retorno;
     }
 
-    public String consultaEmail(Usuario modelUsuario) throws DataAccessException {
-        String retorno = null;
+    public String consultaEmail(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
             String sql = "SELECT EMAIL FROM ALISSON.USUARIOS WHERE ID = :id";
 
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("id", modelUsuario.getId());
+                    .addValue("id", usuarioRequestDTO.getId());
 
-           retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
+           return namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e) {
             throw new DataAccessException("Erro no servidor interno") {};
         }
-
-        return retorno;
     }
 
-    public int insereTokenTabela(GeraToken classeToken, Usuario modelUsuario) throws DataAccessException {
-        int retorno = 0;
+    public int insereTokenTabela(GeraToken classeToken, UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
             // converte a data em String
             DateTimeFormatter formataDataString = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -87,14 +75,13 @@ public class UsuarioRepository {
             String sql2 = "INSERT INTO ALISSON.VALIDATOKEN (CODUSUARIO, TOKEN, DATATOKEN) VALUES ( :codUsuario, :token, :datatoken)";
 
             SqlParameterSource parametro = new MapSqlParameterSource()
-                    .addValue("codUsuario", modelUsuario.getId())
+                    .addValue("codUsuario", usuarioRequestDTO.getId())
                     .addValue("token", classeToken.getToken())
                     .addValue("datatoken", dataFormatada);
-            retorno = namedJdbcTemplate.update(sql2, parametro);
+            return namedJdbcTemplate.update(sql2, parametro);
         } catch (DataAccessException e) {
             throw new DataAccessException("Erro interno no servidor") {};
         }
-        return retorno;
     }
 
     public void disparaEmail(String baseUrl, String emailUsiario,GeraToken classeToken) throws MailException {
@@ -111,92 +98,82 @@ public class UsuarioRepository {
        }
     }
 
-    public int crateUserRepository(Usuario entityUser) throws DataAccessException {
-        int retorno = 0;
+    public int crateUserRepository(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
             String sql = "INSERT INTO ALISSON.USUARIOS(ID, NOME, SENHA) VALUES (:id,:nome,:senha)";
 
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("id", entityUser.getId())
-                    .addValue("nome", entityUser.getNome())
-                    .addValue("senha", entityUser.getSenha());
-            retorno = namedJdbcTemplate.update(sql, params);
+                    .addValue("id", usuarioRequestDTO.getId())
+                    .addValue("nome", usuarioRequestDTO.getNome())
+                    .addValue("senha", usuarioRequestDTO.getSenha());
+            return namedJdbcTemplate.update(sql, params);
         } catch (DataAccessException e){
             throw new DataAccessException("Erro interno no servidor"){};
         }
-        return retorno;
     }
 
     public List<Usuario> listaUsuarioRepository() throws DataAccessException {
-        List<Usuario> usuarios = null;
         try {
             String sql = "SELECT ID, NOME FROM ALISSON.USUARIOS";
-             usuarios = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Usuario.class));
+             return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Usuario.class));
         } catch (DataAccessException e){
             throw new DataAccessException("Erro interno no servidor"){};
         }
-       return usuarios;
     }
 
-    public String validaRe(Usuario entityUser) throws DataAccessException {
-        String retorno = null;
+    public String validaRe(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
-            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM USUARIOS WHERE ID = :id) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
+            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = :id) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("id", entityUser.getId(), Types.VARCHAR);
-            retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
+                    .addValue("id", usuarioRequestDTO.getId(), Types.VARCHAR);
+            return namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e){
             e.printStackTrace();
             throw new DataAccessException("Erro ao validar"){};
         }
-        return retorno;
     }
 
-    public String validaLogin(Usuario entityUser) throws DataAccessException {
-        String retorno = null;
+    public String validaLogin(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
-            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM USUARIOS WHERE ID = :id AND SENHA = :senha) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
+            String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = :id AND SENHA = :senha) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("id", entityUser.getId(), Types.VARCHAR)
-                    .addValue("senha", entityUser.getSenha(), Types.VARCHAR);
-            retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
+                    .addValue("id", usuarioRequestDTO.getId(), Types.VARCHAR)
+                    .addValue("senha", usuarioRequestDTO.getSenha(), Types.VARCHAR);
+            return namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e){
             e.printStackTrace();
             throw new DataAccessException("Erro ao validar"){};
         }
-        return retorno;
     }
 
-    public String validaId(Usuario usuario) {
-        String retorno = null;
+    public String validaId(UsuarioRequestDTO usuarioRequestDTO) {
         try {
+
             String sql = "SELECT ID FROM ALISSON.USUARIOS WHERE ID = :id";
+
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("id", usuario.getId(), Types.VARCHAR);
-               retorno = namedJdbcTemplate.queryForObject(sql, params, String.class);
-        }catch (DataAccessException e){
-            e.printStackTrace();
+                    .addValue("id", usuarioRequestDTO.getId(), Types.VARCHAR);
+
+               return namedJdbcTemplate.queryForObject(sql, params, String.class);
+
+        }catch (EmptyResultDataAccessException e){
+            return null;
         }
-        return retorno;
     }
 
-    public String validaSenhas(Usuario usuario) {
-        String retorno = null;
-        try {
+    public String validaSenhas(UsuarioRequestDTO usuarioRequestDTO) {
+
             try {
                 String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = ? AND (SENHA != ? AND SENHA2 != ?)) THEN 1 ELSE 0 END AS SENHA_VALIDA FROM DUAL";
-                retorno = jdbcTemplate.queryForObject(sql, String.class, usuario.getId(), usuario.getSenha(), usuario.getSenha());
+                return jdbcTemplate.queryForObject(sql, String.class, usuarioRequestDTO.getId(), usuarioRequestDTO.getSenha(), usuarioRequestDTO.getSenha());
             } catch (DataAccessException e) {
                 e.printStackTrace();
             }
-        } catch (DataAccessException e){
-            e.printStackTrace();
-        }
-        return retorno;
+        return null;
     }
 
-    public int atualizaUsuario(Usuario usuario)  throws DataAccessException{
-        int retorno = 0;
+    public int atualizaUsuario(UsuarioRequestDTO usuarioRequestDTO)  throws DataAccessException{
+
         try {
             String sql =
                     " UPDATE \n" +
@@ -209,15 +186,13 @@ public class UsuarioRepository {
                     " WHERE ID = :id ";
 
             SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("nome", usuario.getNome(), Types.VARCHAR)
-                    .addValue("senha", usuario.getSenha(), Types.VARCHAR)
-                    .addValue("id", usuario.getId(), Types.VARCHAR);
-            retorno = namedJdbcTemplate.update(sql, params);
+                    .addValue("nome", usuarioRequestDTO.getNome(), Types.VARCHAR)
+                    .addValue("senha", usuarioRequestDTO.getSenha(), Types.VARCHAR)
+                    .addValue("id", usuarioRequestDTO.getId(), Types.VARCHAR);
+            return namedJdbcTemplate.update(sql, params);
         } catch (DataAccessException e) {
             throw new DataAccessException("Erro interno no servidor"){};
         }
-
-        return retorno;
     }
 }
 
