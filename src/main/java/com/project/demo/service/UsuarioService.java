@@ -1,10 +1,10 @@
-package com.project.demo.Service;
+package com.project.demo.service;
 
-import com.project.demo.Dto.UsuarioResponseDTO;
-import com.project.demo.Model.Usuario;
-import com.project.demo.Dto.UsuarioRequestDTO;
-import com.project.demo.Exception.RegrasNegocioException;
-import com.project.demo.Repository.UsuarioRepository;
+import com.project.demo.dto.UsuarioResponseDTO;
+import com.project.demo.model.Usuario;
+import com.project.demo.dto.UsuarioRequestDTO;
+import com.project.demo.exeption.RegrasNegocioException;
+import com.project.demo.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

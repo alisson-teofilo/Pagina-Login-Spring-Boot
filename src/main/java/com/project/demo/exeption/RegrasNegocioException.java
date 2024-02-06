@@ -1,4 +1,4 @@
-package com.project.demo.Exception;
+package com.project.demo.exeption;
 
 public class RegrasNegocioException extends Exception {
 

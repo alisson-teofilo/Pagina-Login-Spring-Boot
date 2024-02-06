@@ -1,6 +1,6 @@
-package com.project.demo.Dto;
+package com.project.demo.dto;
 
-import com.project.demo.Model.Usuario;
+import com.project.demo.model.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

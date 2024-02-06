@@ -1,11 +1,10 @@
-package com.project.demo.Controller;
+package com.project.demo.controller;
 
-import com.project.demo.Dto.UsuarioResponseDTO;
-import com.project.demo.Dto.UsuarioRequestDTO;
-import com.project.demo.Exception.RegrasNegocioException;
-import com.project.demo.Model.Usuario;
-import com.project.demo.Service.GeraToken;
-import com.project.demo.Service.UsuarioService;
+import com.project.demo.dto.UsuarioResponseDTO;
+import com.project.demo.dto.UsuarioRequestDTO;
+import com.project.demo.exeption.RegrasNegocioException;
+import com.project.demo.service.GeraToken;
+import com.project.demo.service.UsuarioService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;

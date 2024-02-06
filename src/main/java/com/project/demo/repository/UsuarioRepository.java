@@ -1,11 +1,10 @@
-package com.project.demo.Repository;
+package com.project.demo.repository;
 
-import com.project.demo.Dto.UsuarioRequestDTO;
-import com.project.demo.Model.Usuario;
-import com.project.demo.Service.GeraToken;
+import com.project.demo.dto.UsuarioRequestDTO;
+import com.project.demo.model.Usuario;
+import com.project.demo.service.GeraToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

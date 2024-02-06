@@ -1,6 +1,6 @@
-package com.project.demo.Model;
+package com.project.demo.model;
 
-import com.project.demo.Dto.UsuarioResponseDTO;
+import com.project.demo.dto.UsuarioResponseDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package com.project.demo.Model;
+package com.project.demo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuOracle {
+public class Menu {
     @Id
     @Column (name = "COD_MODULO")
     private String codModulo;

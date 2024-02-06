@@ -1,4 +1,4 @@
-package com.project.demo.Model.mysql;
+package com.project.demo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioMysql {
+public class UsuarioOracle {
     @Id
     @Column (name = "ID")
     private String id;

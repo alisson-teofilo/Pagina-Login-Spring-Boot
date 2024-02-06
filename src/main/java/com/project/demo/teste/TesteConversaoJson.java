@@ -1,4 +1,4 @@
-package com.project.demo.Teste;
+package com.project.demo.teste;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
