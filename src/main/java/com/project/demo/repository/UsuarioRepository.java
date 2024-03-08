@@ -1,6 +1,6 @@
 package com.project.demo.repository;
 
-import com.project.demo.dto.UsuarioRequestDTO;
+import com.project.demo.dto.requestDTO.UsuarioRequestDTO;
 import com.project.demo.model.Usuario;
 import com.project.demo.service.GeraToken;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,8 @@
 package com.project.demo.controller;
 
-import com.project.demo.dto.UsuarioResponseDTO;
-import com.project.demo.dto.UsuarioRequestDTO;
+
+import com.project.demo.dto.requestDTO.UsuarioRequestDTO;
+import com.project.demo.dto.responseDTO.UsuarioResponseDTO;
 import com.project.demo.exeption.RegrasNegocioException;
 import com.project.demo.service.GeraToken;
 import com.project.demo.service.UsuarioService;
@@ -43,6 +44,7 @@ public class UsuarioController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PostMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(@RequestBody UsuarioRequestDTO usuarioRequestDTO, GeraToken classeToken){
         logger.info("Enviar Email");
@@ -53,6 +55,7 @@ public class UsuarioController {
         }
         return ResponseEntity.status(HttpStatus.OK).body("As instruções foram enviadas no seu Email.");
     }
+
     @PostMapping("/efetuarLogin")
     public ResponseEntity<?> loginUser(@RequestBody UsuarioRequestDTO usuarioRequestDTO){
         logger.info("Logar Usuario");
@@ -74,6 +77,7 @@ public class UsuarioController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @GetMapping("/listaUsuarios")
     public ResponseEntity<List<?>> listaUsuariosController() {
         logger.info("Listar Usuarios");

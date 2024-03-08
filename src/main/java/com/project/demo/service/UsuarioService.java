@@ -1,8 +1,8 @@
 package com.project.demo.service;
 
-import com.project.demo.dto.UsuarioResponseDTO;
+import com.project.demo.dto.responseDTO.UsuarioResponseDTO;
 import com.project.demo.model.Usuario;
-import com.project.demo.dto.UsuarioRequestDTO;
+import com.project.demo.dto.requestDTO.UsuarioRequestDTO;
 import com.project.demo.exeption.RegrasNegocioException;
 import com.project.demo.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;

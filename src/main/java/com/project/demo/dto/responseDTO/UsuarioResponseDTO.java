@@ -1,4 +1,4 @@
-package com.project.demo.dto;
+package com.project.demo.dto.responseDTO;
 
 import com.project.demo.model.Usuario;
 import lombok.AllArgsConstructor;
