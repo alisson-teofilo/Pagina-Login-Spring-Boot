@@ -21,22 +21,14 @@ import java.util.List;
 @Slf4j
 @Service
 public class UsuarioService {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private NamedParameterJdbcTemplate namedJdbcTemplate;
-
-    @Autowired
     private UsuarioRepository repository;
-
-    private final JavaMailSender javaMailSender;
-
-    public UsuarioService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
+    @Autowired
+    public UsuarioService(UsuarioRepository repository) {
+        this.repository = repository;
     }
 
     public void validaToken(UsuarioRequestDTO usuarioRequestDTO, GeraToken classeToken, UsuarioRequestDTO response) throws DataAccessException, RegrasNegocioException {
+
         String dataTokenUsuario = repository.tokenValidoRepository(usuarioRequestDTO);
         // converte a string em LocalDate
         DateTimeFormatter formataData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -110,6 +102,7 @@ public class UsuarioService {
     }
 
     public void atualizaUsuario(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException, RegrasNegocioException {
+
             // valida ID
             String validaId = repository.validaId(usuarioRequestDTO);
             if(validaId == null || validaId.isEmpty()){
@@ -121,8 +114,13 @@ public class UsuarioService {
             if (!validaSenhas.equals("1")){
                 throw new RegrasNegocioException("Erro. A senha ja foi utilizada. ");
             }
+
             // Atualzia usuário
             repository.atualizaUsuario(usuarioRequestDTO);
+    }
+
+    public boolean retornoTrue(){
+        return true;
     }
 
 }

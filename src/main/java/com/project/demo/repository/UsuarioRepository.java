@@ -21,27 +21,25 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-@Slf4j
 @Repository
 public class UsuarioRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     NamedParameterJdbcTemplate namedJdbcTemplate;
-
     private final JavaMailSender javaMailSender;
 
-    public UsuarioRepository(JavaMailSender javaMailSender) {
+    @Autowired
+    public UsuarioRepository(JavaMailSender javaMailSender, NamedParameterJdbcTemplate namedJdbcTemplate) {
         this.javaMailSender = javaMailSender;
+        this.namedJdbcTemplate = namedJdbcTemplate;
     }
 
     public String tokenValidoRepository(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
             String sql = "SELECT DATATOKEN FROM ALISSON.VALIDATOKEN WHERE TOKEN = :token";
+
             SqlParameterSource params = new MapSqlParameterSource()
                     .addValue("token", usuarioRequestDTO.getToken());
+
             return namedJdbcTemplate.queryForObject(sql, params, String.class);
         } catch (DataAccessException e){
             throw new DataAccessException("Erro de validação") {};
@@ -63,6 +61,7 @@ public class UsuarioRepository {
 
     public int insereTokenTabela(GeraToken classeToken, UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
+
             // converte a data em String
             DateTimeFormatter formataDataString = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String dataFormatadaString = classeToken.getDataToken().format(formataDataString);
@@ -78,6 +77,7 @@ public class UsuarioRepository {
                     .addValue("token", classeToken.getToken())
                     .addValue("datatoken", dataFormatada);
             return namedJdbcTemplate.update(sql2, parametro);
+
         } catch (DataAccessException e) {
             throw new DataAccessException("Erro interno no servidor") {};
         }
@@ -85,13 +85,16 @@ public class UsuarioRepository {
 
     public void disparaEmail(String baseUrl, String emailUsiario,GeraToken classeToken) throws MailException {
        try {
+
            String paramsUrl = "?params=";
+
            //Envia o email para o usuário
            var mensagem = new SimpleMailMessage();
            mensagem.setTo(emailUsiario);
            mensagem.setSubject("Requição troca de Email");
            mensagem.setText("Para redefinir a sua senha clique no link: " + baseUrl + paramsUrl + classeToken.getToken());
            javaMailSender.send(mensagem);
+
        } catch (MailException e) {
            throw new MailException("Erro ao enviar Email"){};
        }
@@ -114,7 +117,7 @@ public class UsuarioRepository {
     public List<Usuario> listaUsuarioRepository() throws DataAccessException {
         try {
             String sql = "SELECT ID, NOME FROM ALISSON.USUARIOS";
-             return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Usuario.class));
+             return namedJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Usuario.class));
         } catch (DataAccessException e){
             throw new DataAccessException("Erro interno no servidor"){};
         }
@@ -122,10 +125,13 @@ public class UsuarioRepository {
 
     public String validaRe(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
+
             String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = :id) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
             SqlParameterSource params = new MapSqlParameterSource()
+
                     .addValue("id", usuarioRequestDTO.getId(), Types.VARCHAR);
             return namedJdbcTemplate.queryForObject(sql, params, String.class);
+
         } catch (DataAccessException e){
             e.printStackTrace();
             throw new DataAccessException("Erro ao validar"){};
@@ -134,11 +140,14 @@ public class UsuarioRepository {
 
     public String validaLogin(UsuarioRequestDTO usuarioRequestDTO) throws DataAccessException {
         try {
+
             String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = :id AND SENHA = :senha) THEN 1 ELSE 0 END AS LOGIN_APROVADO FROM DUAL";
+
             SqlParameterSource params = new MapSqlParameterSource()
                     .addValue("id", usuarioRequestDTO.getId(), Types.VARCHAR)
                     .addValue("senha", usuarioRequestDTO.getSenha(), Types.VARCHAR);
             return namedJdbcTemplate.queryForObject(sql, params, String.class);
+
         } catch (DataAccessException e){
             e.printStackTrace();
             throw new DataAccessException("Erro ao validar"){};
@@ -163,8 +172,16 @@ public class UsuarioRepository {
     public String validaSenhas(UsuarioRequestDTO usuarioRequestDTO) {
 
             try {
-                String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = ? AND (SENHA != ? AND SENHA2 != ?)) THEN 1 ELSE 0 END AS SENHA_VALIDA FROM DUAL";
-                return jdbcTemplate.queryForObject(sql, String.class, usuarioRequestDTO.getId(), usuarioRequestDTO.getSenha(), usuarioRequestDTO.getSenha());
+
+                String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM ALISSON.USUARIOS WHERE ID = :id AND (SENHA != :senha AND SENHA2 != :senha2)) THEN 1 ELSE 0 END AS SENHA_VALIDA FROM DUAL";
+
+                SqlParameterSource params = new MapSqlParameterSource()
+                        .addValue("id",usuarioRequestDTO.getId())
+                        .addValue("senha", usuarioRequestDTO.getSenha())
+                        .addValue("senha2", usuarioRequestDTO.getSenha());
+
+                return namedJdbcTemplate.queryForObject(sql, params, String.class);
+
             } catch (DataAccessException e) {
                 e.printStackTrace();
             }
@@ -189,6 +206,7 @@ public class UsuarioRepository {
                     .addValue("senha", usuarioRequestDTO.getSenha(), Types.VARCHAR)
                     .addValue("id", usuarioRequestDTO.getId(), Types.VARCHAR);
             return namedJdbcTemplate.update(sql, params);
+
         } catch (DataAccessException e) {
             throw new DataAccessException("Erro interno no servidor"){};
         }

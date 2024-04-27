@@ -26015,3 +26015,221 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01758: a tabela deve estar v
 2024-03-08T01:05:06,470 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-03-08T01:05:06,473 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2024-03-08T01:05:06,493 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-03-08T01:08:00,296 INFO  com.project.demo.LinkVagasApplication - Starting LinkVagasApplication using Java 18.0.2 with PID 5340 (C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot\target\classes started by aliss in C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot)
+2024-03-08T01:08:00,307 INFO  com.project.demo.LinkVagasApplication - No active profile set, falling back to 1 default profile: "default"
+2024-03-08T01:08:00,368 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+2024-03-08T01:08:00,368 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc10\19.3.0.0\ojdbc10-19.3.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc10/19.3.0.0/oraclepki.jar
+2024-03-08T01:08:00,369 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\security\oraclepki\21.9.0.0\oraclepki-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_cert.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_cert.jar
+2024-03-08T01:08:00,369 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-03-08T01:08:00,370 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-03-08T01:08:01,345 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-08T01:08:01,369 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 16 ms. Found 0 JPA repository interfaces.
+2024-03-08T01:08:01,970 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-08T01:08:01,982 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:08:01,984 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-08T01:08:01,985 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.10]
+2024-03-08T01:08:02,044 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-08T01:08:02,044 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1673 ms
+2024-03-08T01:08:02,232 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-08T01:08:02,283 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.5.Final
+2024-03-08T01:08:02,285 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-03-08T01:08:02,410 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:08:02,526 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-08T01:08:02,539 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-03-08T01:08:02,773 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@526d5dbc
+2024-03-08T01:08:02,775 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-03-08T01:08:02,800 WARN  org.hibernate.orm.deprecation - HHH90000026: Oracle12cDialect has been deprecated; use org.hibernate.dialect.OracleDialect instead
+2024-03-08T01:08:03,065 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:08:03,723 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-08T01:08:03,913 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:08:04,100 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-08T01:08:04,358 WARN  org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-03-08T01:08:04,548 INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-08T01:08:04,566 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:08:04,584 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-08T01:08:04,595 INFO  com.project.demo.LinkVagasApplication - Started LinkVagasApplication in 4.99 seconds (process running for 6.139)
+2024-03-08T01:08:19,764 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:08:19,770 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-03-08T01:08:19,792 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-03-08T01:08:24,474 INFO  com.project.demo.LinkVagasApplication - Starting LinkVagasApplication using Java 18.0.2 with PID 4900 (C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot\target\classes started by aliss in C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot)
+2024-03-08T01:08:24,482 INFO  com.project.demo.LinkVagasApplication - No active profile set, falling back to 1 default profile: "default"
+2024-03-08T01:08:24,522 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+2024-03-08T01:08:24,522 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc10\19.3.0.0\ojdbc10-19.3.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc10/19.3.0.0/oraclepki.jar
+2024-03-08T01:08:24,522 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\security\oraclepki\21.9.0.0\oraclepki-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_cert.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_cert.jar
+2024-03-08T01:08:24,522 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-03-08T01:08:24,523 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-03-08T01:08:25,153 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-08T01:08:25,178 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 16 ms. Found 0 JPA repository interfaces.
+2024-03-08T01:08:25,646 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-08T01:08:25,653 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:08:25,656 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-08T01:08:25,656 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.10]
+2024-03-08T01:08:25,703 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-08T01:08:25,703 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1180 ms
+2024-03-08T01:08:25,889 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-08T01:08:25,953 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.5.Final
+2024-03-08T01:08:25,954 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-03-08T01:08:26,094 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:08:26,239 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-08T01:08:26,257 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-03-08T01:08:26,504 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@7e17f41a
+2024-03-08T01:08:26,506 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-03-08T01:08:26,531 WARN  org.hibernate.orm.deprecation - HHH90000026: Oracle12cDialect has been deprecated; use org.hibernate.dialect.OracleDialect instead
+2024-03-08T01:08:26,849 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:08:27,456 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-08T01:08:27,671 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:08:27,782 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-08T01:08:28,017 WARN  org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-03-08T01:08:28,205 INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-08T01:08:28,220 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:08:28,239 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-08T01:08:28,247 INFO  com.project.demo.LinkVagasApplication - Started LinkVagasApplication in 4.212 seconds (process running for 5.092)
+2024-03-08T01:08:46,666 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:08:46,672 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-03-08T01:08:46,701 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-03-08T01:08:52,018 INFO  com.project.demo.LinkVagasApplication - Starting LinkVagasApplication using Java 18.0.2 with PID 17444 (C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot\target\classes started by aliss in C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot)
+2024-03-08T01:08:52,026 INFO  com.project.demo.LinkVagasApplication - No active profile set, falling back to 1 default profile: "default"
+2024-03-08T01:08:52,069 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+2024-03-08T01:08:52,070 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc10\19.3.0.0\ojdbc10-19.3.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc10/19.3.0.0/oraclepki.jar
+2024-03-08T01:08:52,070 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\security\oraclepki\21.9.0.0\oraclepki-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_cert.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_cert.jar
+2024-03-08T01:08:52,070 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-03-08T01:08:52,070 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-03-08T01:08:52,691 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-08T01:08:52,712 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
+2024-03-08T01:08:53,236 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-08T01:08:53,245 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:08:53,247 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-08T01:08:53,248 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.10]
+2024-03-08T01:08:53,299 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-08T01:08:53,299 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1228 ms
+2024-03-08T01:08:53,466 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-08T01:08:53,523 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.5.Final
+2024-03-08T01:08:53,525 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-03-08T01:08:53,649 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:08:53,769 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-08T01:08:53,786 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-03-08T01:08:54,018 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@471369aa
+2024-03-08T01:08:54,020 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-03-08T01:08:54,054 WARN  org.hibernate.orm.deprecation - HHH90000026: Oracle12cDialect has been deprecated; use org.hibernate.dialect.OracleDialect instead
+2024-03-08T01:08:54,404 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:08:55,050 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-08T01:08:55,245 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:08:55,401 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-08T01:08:55,748 WARN  org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-03-08T01:08:55,967 INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-08T01:08:55,983 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:08:55,998 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-08T01:08:56,008 INFO  com.project.demo.LinkVagasApplication - Started LinkVagasApplication in 4.44 seconds (process running for 5.362)
+2024-03-08T01:09:20,154 INFO  org.springframework.boot.devtools.autoconfigure.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-03-08T01:09:20,173 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:20,173 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-03-08T01:09:20,179 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:20,181 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:20,184 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:09:20,189 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-03-08T01:09:20,201 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-03-08T01:09:20,307 INFO  com.project.demo.LinkVagasApplication - Starting LinkVagasApplication using Java 18.0.2 with PID 17444 (C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot\target\classes started by aliss in C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot)
+2024-03-08T01:09:20,308 INFO  com.project.demo.LinkVagasApplication - No active profile set, falling back to 1 default profile: "default"
+2024-03-08T01:09:20,698 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-08T01:09:20,706 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 JPA repository interfaces.
+2024-03-08T01:09:20,867 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-08T01:09:20,868 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:20,869 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-08T01:09:20,869 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.10]
+2024-03-08T01:09:20,894 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-08T01:09:20,894 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 583 ms
+2024-03-08T01:09:20,957 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-08T01:09:20,968 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:09:20,968 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-08T01:09:20,969 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2024-03-08T01:09:21,032 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection oracle.jdbc.driver.T4CConnection@1e4cb2d0
+2024-03-08T01:09:21,032 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2024-03-08T01:09:21,033 WARN  org.hibernate.orm.deprecation - HHH90000026: Oracle12cDialect has been deprecated; use org.hibernate.dialect.OracleDialect instead
+2024-03-08T01:09:21,050 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:09:21,103 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-08T01:09:21,253 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:09:21,338 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-08T01:09:21,481 WARN  org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-03-08T01:09:21,560 INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-08T01:09:21,575 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:21,579 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-08T01:09:21,585 INFO  com.project.demo.LinkVagasApplication - Started LinkVagasApplication in 1.323 seconds (process running for 30.938)
+2024-03-08T01:09:21,587 INFO  org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-03-08T01:09:23,109 INFO  org.springframework.boot.devtools.autoconfigure.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-03-08T01:09:23,121 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:23,121 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-03-08T01:09:23,123 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:23,124 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:23,125 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:09:23,126 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2024-03-08T01:09:23,135 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2024-03-08T01:09:23,223 INFO  com.project.demo.LinkVagasApplication - Starting LinkVagasApplication using Java 18.0.2 with PID 17444 (C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot\target\classes started by aliss in C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot)
+2024-03-08T01:09:23,224 INFO  com.project.demo.LinkVagasApplication - No active profile set, falling back to 1 default profile: "default"
+2024-03-08T01:09:23,421 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-08T01:09:23,424 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2024-03-08T01:09:23,506 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-08T01:09:23,507 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:23,507 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-08T01:09:23,507 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.10]
+2024-03-08T01:09:23,522 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-08T01:09:23,522 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 297 ms
+2024-03-08T01:09:23,549 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-08T01:09:23,555 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:09:23,555 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-08T01:09:23,556 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2024-03-08T01:09:23,596 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection oracle.jdbc.driver.T4CConnection@2913802a
+2024-03-08T01:09:23,597 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2024-03-08T01:09:23,597 WARN  org.hibernate.orm.deprecation - HHH90000026: Oracle12cDialect has been deprecated; use org.hibernate.dialect.OracleDialect instead
+2024-03-08T01:09:23,621 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-08T01:09:23,734 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-08T01:09:23,912 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:09:24,008 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-08T01:09:24,153 WARN  org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-03-08T01:09:24,210 INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-08T01:09:24,222 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-03-08T01:09:24,225 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-08T01:09:24,233 INFO  com.project.demo.LinkVagasApplication - Started LinkVagasApplication in 1.049 seconds (process running for 33.587)
+2024-03-08T01:09:24,234 INFO  org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-03-08T01:10:04,410 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-08T01:10:04,411 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2024-03-08T01:10:04,426 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2024-03-09T15:22:07,332 INFO  com.project.demo.LinkVagasApplication - Starting LinkVagasApplication using Java 18.0.2 with PID 8380 (C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot\target\classes started by aliss in C:\Users\aliss\OneDrive\Área de Trabalho\Repositorio\Pagina Login - Spring Boot)
+2024-03-09T15:22:07,341 INFO  com.project.demo.LinkVagasApplication - No active profile set, falling back to 1 default profile: "default"
+2024-03-09T15:22:07,384 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+2024-03-09T15:22:07,385 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\jdbc\ojdbc10\19.3.0.0\ojdbc10-19.3.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/jdbc/ojdbc10/19.3.0.0/oraclepki.jar
+2024-03-09T15:22:07,385 INFO  org.springframework.boot.devtools.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\aliss\.m2\repository\com\oracle\database\security\oraclepki\21.9.0.0\oraclepki-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/21.9.0.0/osdt_cert.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_core.jar,file:/C:/Users/aliss/.m2/repository/com/oracle/database/security/oraclepki/oracle.osdt/osdt_cert.jar
+2024-03-09T15:22:07,385 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-03-09T15:22:07,386 INFO  org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-03-09T15:22:08,150 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-09T15:22:08,171 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 JPA repository interfaces.
+2024-03-09T15:22:08,798 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-03-09T15:22:08,806 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-03-09T15:22:08,808 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-09T15:22:08,809 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.10]
+2024-03-09T15:22:08,858 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-09T15:22:08,860 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1473 ms
+2024-03-09T15:22:09,024 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-09T15:22:09,099 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.5.Final
+2024-03-09T15:22:09,101 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-03-09T15:22:09,239 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-09T15:22:09,377 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-09T15:22:09,397 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-03-09T15:22:09,654 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@de487eb
+2024-03-09T15:22:09,656 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-03-09T15:22:09,681 WARN  org.hibernate.orm.deprecation - HHH90000026: Oracle12cDialect has been deprecated; use org.hibernate.dialect.OracleDialect instead
+2024-03-09T15:22:09,978 INFO  org.hibernate.bytecode.internal.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+2024-03-09T15:22:10,604 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-03-09T15:22:11,685 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-09T15:22:11,807 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-09T15:22:12,182 WARN  org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-03-09T15:22:12,406 INFO  org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-03-09T15:22:12,423 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-03-09T15:22:12,441 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2024-03-09T15:22:12,450 INFO  com.project.demo.LinkVagasApplication - Started LinkVagasApplication in 5.528 seconds (process running for 9.224)
+2024-03-09T15:22:23,375 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-09T15:22:23,376 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-03-09T15:22:23,379 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-03-09T15:22:23,505 INFO  com.project.demo.controller.UsuarioController - Listar Usuarios
+2024-03-09T15:22:33,504 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-09T15:22:33,507 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-03-09T15:22:33,544 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
