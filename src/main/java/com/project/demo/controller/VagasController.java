@@ -17,27 +17,20 @@ import java.util.List;
 @RequestMapping("vagas")
 @Slf4j
 public class VagasController {
+
   VagasService service;
 
   @Autowired
   public VagasController(VagasService vagasService){
     this.service = vagasService;
   }
+
   @GetMapping("/listarVagas")
-    public ResponseEntity<?> listarVagas(){
+    public ResponseEntity<?> listarVagas() {
+
       log.info("ENDPOINT / Listar vagas");
-        try {
-           List<VagasResponseDTO> retorno = service.listarVagas();
-           return ResponseEntity.ok(retorno);
-        } catch (DataAccessException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
 
-    @GetMapping("/returnTrue")
-    public boolean returnTrue(){
-      return service.returTrue();
-    }
-
-
+      List<VagasResponseDTO> retorno = service.listarVagas();
+      return ResponseEntity.ok(retorno);
+  }
 }

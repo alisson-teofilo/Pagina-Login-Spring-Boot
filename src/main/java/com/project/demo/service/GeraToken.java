@@ -8,6 +8,11 @@ import java.util.UUID;
 
 @Service
 @Data
+
+/**
+ *  MÉTODOS PRECISAM SER STATIC, EVITANDO PASSAR TOKEN POR PARÂMETRO
+ */
+
 public class GeraToken {
 
     private String token;

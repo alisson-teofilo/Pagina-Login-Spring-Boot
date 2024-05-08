@@ -17,4 +17,5 @@ public class UsuarioRequestDTO {
     private String senha4;
     private String email;
     private String token;
+    private String cpf;
 }
