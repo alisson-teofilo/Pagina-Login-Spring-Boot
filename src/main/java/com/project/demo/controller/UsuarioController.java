@@ -25,12 +25,14 @@ public class UsuarioController {
     UsuarioService service;
 
     @Autowired
-    public UsuarioController(UsuarioService service){
+    public UsuarioController(UsuarioService service)
+    {
         this.service = service;
     }
 
     @PostMapping("/validaToken")
-    public ResponseEntity<?> validaToken(@RequestBody UsuarioRequestDTO usuarioRequestDTO, GeraToken classtoken, UsuarioRequestDTO response){
+    public ResponseEntity<?> validaToken(@RequestBody UsuarioRequestDTO usuarioRequestDTO, GeraToken classtoken, UsuarioRequestDTO response)
+    {
         log.info("Validar Token");
 
             service.validaToken(usuarioRequestDTO, classtoken, response);
@@ -39,7 +41,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/enviaEmail")
-    public ResponseEntity<?> enviaEmail(@RequestBody UsuarioRequestDTO usuarioRequestDTO, GeraToken classeToken){
+    public ResponseEntity<?> enviaEmail(@RequestBody UsuarioRequestDTO usuarioRequestDTO, GeraToken classeToken)
+    {
         log.info("Enviar Email");
 
             service.enviarEmail(usuarioRequestDTO, classeToken);
@@ -48,7 +51,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/efetuarLogin")
-    public ResponseEntity<?> loginUser(@RequestBody UsuarioRequestDTO usuarioRequestDTO){
+    public ResponseEntity<?> loginUser(@RequestBody UsuarioRequestDTO usuarioRequestDTO)
+    {
         log.info("Logar Usuario");
 
             service.loginUserService(usuarioRequestDTO);
@@ -57,7 +61,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastrarUsuario")
-    public ResponseEntity<?> createUser(@RequestBody UsuarioRequestDTO usuarioRequestDTO){
+    public ResponseEntity<?> createUser(@RequestBody UsuarioRequestDTO usuarioRequestDTO)
+    {
         log.info("Cadastrar Usuarios");
 
             service.createUserService(usuarioRequestDTO);
@@ -66,7 +71,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/listaUsuarios")
-    public ResponseEntity<List<?>> listaUsuariosController() {
+    public ResponseEntity<List<?>> listaUsuariosController()
+    {
         log.info("Listar Usuarios");
 
         List<UsuarioResponseDTO> retornoLista = service.listaUsuarioService();
@@ -75,7 +81,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/atualizaCadastro")
-    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioRequestDTO usuarioRequestDTO) {
+    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioRequestDTO usuarioRequestDTO)
+    {
         log.info("Atualizar Usuários");
 
             service.atualizaUsuario(usuarioRequestDTO);

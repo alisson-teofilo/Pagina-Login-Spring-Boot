@@ -25,7 +25,6 @@ public class UsuarioRepository {
 
     NamedParameterJdbcTemplate namedJdbcTemplate;
     private final JavaMailSender javaMailSender;
-    String sql;
 
     @Autowired
     public UsuarioRepository(JavaMailSender javaMailSender, NamedParameterJdbcTemplate namedJdbcTemplate) {

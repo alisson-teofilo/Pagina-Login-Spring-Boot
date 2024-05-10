@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Data
 public class VagasResponseDTO {
+
     private String cnpjEmpresa;
     private String titulo;
     private String descricao;

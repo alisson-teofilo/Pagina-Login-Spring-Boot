@@ -1,5 +1,6 @@
 package com.project.demo.service;
 
+import com.project.demo.dto.requestDTO.VagasRequestDTO;
 import com.project.demo.dto.responseDTO.VagasResponseDTO;
 import com.project.demo.exeption.RegrasNegocioException;
 import com.project.demo.model.Vagas;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class VagasService {
-
-    private UsuarioService usuarioService;
 
     private VagasRepository repository;
 
@@ -27,6 +26,11 @@ public class VagasService {
             throw new RegrasNegocioException("Erro ao listar vagas");
         }
         return VagasResponseDTO.convert(retorno);
+    }
+
+    public void inserirVaga(VagasRequestDTO requestDTO)
+    {
+        repository.inserirVaga(requestDTO);
     }
 
 
