@@ -2,6 +2,7 @@ package com.project.demo.controller;
 
 import com.project.demo.dto.requestDTO.VagasRequestDTO;
 import com.project.demo.dto.responseDTO.VagasResponseDTO;
+import com.project.demo.model.Vagas;
 import com.project.demo.service.VagasService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,19 +26,34 @@ public class VagasController {
     this.service = vagasService;
   }
 
-  @GetMapping("/listarVagas")
-    public ResponseEntity<?> listarVagas() {
+  @GetMapping("/listJobs")
+    public ResponseEntity<?> listJobs() {
+      log.info("ENDPOINT / JOB LIST");
 
-      log.info("ENDPOINT / Listar vagas");
-
-      List<VagasResponseDTO> retorno = service.listarVagas();
+      List<VagasResponseDTO> retorno = service.jobList();
       return ResponseEntity.ok(retorno);
   }
 
-  @PostMapping("/cadastrarVagas")
-  public void insereVagas(@RequestBody VagasRequestDTO vagas) {
-    log.info("ENDPOINT / Cadastrar vagas");
+  @PostMapping("/jobCreator")
+  public void jobCreator(@RequestBody VagasRequestDTO vagas) {
+    log.info("ENDPOINT / JOB CREATE");
 
-    service.inserirVaga(vagas);
+    service.jobInsert(vagas);
   }
+
+  @PostMapping("/updateJobs")
+  public void updateJobs(@RequestBody VagasRequestDTO vagas) {
+    log.info("ENDPOINT /JOB UPDATE");
+
+    service.updateJobs(vagas);
+  }
+
+  @GetMapping("/jobSearch/{jobParamSearch}")
+  public ResponseEntity<?> jobSearch(@PathVariable String jobParamSearch ) throws IOException, InterruptedException {
+    log.info("ENDPOINT / JOB SEARCH");
+
+    List<VagasResponseDTO> vagasEncontradas = service.searchJobs(jobParamSearch);
+    return ResponseEntity.ok(vagasEncontradas);
+  }
+
 }

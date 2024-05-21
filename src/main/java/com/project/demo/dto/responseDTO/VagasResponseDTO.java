@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 @Data
 public class VagasResponseDTO {
 
-    private String cnpjEmpresa;
     private String titulo;
     private String descricao;
     private Date dataPublicacao;
@@ -19,7 +18,6 @@ public class VagasResponseDTO {
     private String localAtuacao;
 
     public VagasResponseDTO(Vagas vagas){
-        this.cnpjEmpresa = vagas.getCnpjEmpresa();
         this.titulo = vagas.getTitulo();
         this.descricao = vagas.getDescricao();
         this.dataPublicacao = vagas.getDataPublicacao();
