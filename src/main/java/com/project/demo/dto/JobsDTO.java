@@ -18,4 +18,5 @@ public class JobsDTO {
     private String jobDescription;
     private String pubDate;
 
+
 }

@@ -1,74 +1,75 @@
 package com.project.demo.service;
-
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.demo.dto.JobsDTO;
 import com.project.demo.dto.requestDTO.VagasRequestDTO;
 import com.project.demo.dto.responseDTO.VagasResponseDTO;
 import com.project.demo.exeption.RegrasNegocioException;
-import com.project.demo.model.ModelJson;
 import com.project.demo.model.Vagas;
 import com.project.demo.repository.VagasRepository;
 import com.project.demo.util.JsonFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
+
+import java.text.ParseException;
+import java.util.*;
+
+
+
 @Service
 public class VagasService {
 
     private VagasRepository repository;
 
     @Autowired
-    public VagasService(VagasRepository vagasRepository){
+    public VagasService(VagasRepository vagasRepository) {
         this.repository = vagasRepository;
     }
 
-    public List<VagasResponseDTO> jobList()
-    {
+    public List<VagasResponseDTO> jobList() {
         List<Vagas> retorno = repository.jobList();
-        if(retorno.isEmpty()){
+        if (retorno.isEmpty()) {
             throw new RegrasNegocioException("Erro ao listar vagas");
         }
         return VagasResponseDTO.convert(retorno);
     }
 
-    public void jobInsert(VagasRequestDTO requestDTO)
-    {
+    public void jobInsert(VagasRequestDTO requestDTO) {
         repository.jobInsert(requestDTO);
     }
 
-    public void updateJobs(VagasRequestDTO vagasReqeuest)
-    {
+    public void updateJobs(VagasRequestDTO vagasReqeuest) {
         int registroAtualizado = repository.jobUpdate(vagasReqeuest);
     }
 
-    public List<VagasResponseDTO> searchJobs(String jobParamSearch) throws IOException, InterruptedException
-    {
+    public List<VagasResponseDTO> searchJobs(String jobParamSearch) throws IOException, ParseException {
         List<Vagas> jobs = repository.searchJobs(jobParamSearch);
 
         HttpResponse<String> response = searchInApi(jobParamSearch);
 
-        System.out.println("response" + response.body());
+        List<Vagas> arrayApi = objectFormat(response.body());
 
-        jsonFormat(response.body());
+        List<Vagas> newArray = listUnify(arrayApi, jobs);
 
-        return VagasResponseDTO.convert(jobs);
+        return VagasResponseDTO.convert(newArray);
+    }
+
+    // Unifica os arrays de objetos
+    private List<Vagas> listUnify(List<Vagas> arrayApi, List<Vagas> vagas ) throws ParseException {
+
+        List<Vagas> listUnifyted = new ArrayList<>();
+        listUnifyted.addAll(arrayApi);
+        listUnifyted.addAll(vagas);
+
+        return listUnifyted;
     }
 
     // Consome uma api para encontrar vagas
-    private HttpResponse<String> searchInApi(String jobParamSearch)
-    {
+    private HttpResponse<String> searchInApi(String jobParamSearch) {
         try {
 
             String baseUrl = "https://jobicy.p.rapidapi.com/api/v2/remote-jobs?tag=";
@@ -90,15 +91,30 @@ public class VagasService {
         }
     }
 
-    // Formata o retorno da api em um Json. new BeanPropertyRowMapper<>
-    private void jsonFormat(String response) throws JsonProcessingException
-    {
+    // Formata a string em um novo objeto JobsDTO
+    private List<Vagas> objectFormat(String response) throws JsonProcessingException, ParseException {
 
-        String formattedJson = JsonFormatter.formatJson(response);
+        List<JobsDTO> novaLista = JsonFormatter.formatJson(response);
+        List<Vagas> arrayWithNeweo = new ArrayList<>();
 
-        System.out.println(formattedJson);
+            for(JobsDTO job : novaLista) {
+
+                if(job.getJobGeo().equals("Anywhere")){
+                    Map<String, String> map = new HashMap<>();
+                    map.put("url", job.getUrl());
+                    map.put("jobTitle", job.getJobTitle());
+                    map.put("companyName", job.getCompanyName());
+                    map.put("companyLogo", job.getCompanyLogo());
+                    map.put("jobGeo", job.getJobGeo());
+                    map.put("jobLevel", job.getJobLevel());
+                    map.put("jobDescription", job.getJobDescription());
+                    map.put("pubDate", job.getPubDate());
+                    Vagas vaga = new Vagas(map);
+                    arrayWithNeweo.add(vaga);
+               }
+            }
+            return arrayWithNeweo;
     }
-
 
 }
 

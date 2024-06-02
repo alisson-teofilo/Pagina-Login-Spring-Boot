@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -49,7 +50,7 @@ public class VagasController {
   }
 
   @GetMapping("/jobSearch/{jobParamSearch}")
-  public ResponseEntity<?> jobSearch(@PathVariable String jobParamSearch ) throws IOException, InterruptedException {
+  public ResponseEntity<?> jobSearch(@PathVariable String jobParamSearch ) throws IOException, InterruptedException, ParseException {
     log.info("ENDPOINT / JOB SEARCH");
 
     List<VagasResponseDTO> vagasEncontradas = service.searchJobs(jobParamSearch);

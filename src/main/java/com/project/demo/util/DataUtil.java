@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class DataUtil {
 
-    public static Date converteData(String data) throws ParseException {
+    public static Date dateToString(String data) throws ParseException {
 
         String[] dataVetor = data.split("/");
 
@@ -17,4 +17,13 @@ public class DataUtil {
         //Converte String em Date
         return sdf.parse(dataVetor[2] + "-" + dataVetor[1] + "-" + dataVetor[0]);
     }
+
+
+    public static Date dateConvertApi(String data) throws ParseException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("pt-BR"));
+
+        return sdf.parse(data);
+    }
+
 }
