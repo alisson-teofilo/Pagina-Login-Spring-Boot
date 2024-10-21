@@ -30,24 +30,24 @@ public class VagasService {
         this.repository = vagasRepository;
     }
 
-    public List<VagasResponseDTO> jobList() {
-        List<Vagas> retorno = repository.jobList();
+    public List<VagasResponseDTO> listarVagas() {
+        List<Vagas> retorno = repository.listarVagas();
         if (retorno.isEmpty()) {
             throw new RegrasNegocioException("Erro ao listar vagas");
         }
         return VagasResponseDTO.convert(retorno);
     }
 
-    public void jobInsert(VagasRequestDTO requestDTO) {
-        repository.jobInsert(requestDTO);
+    public void cadastrarVagas(VagasRequestDTO requestDTO) {
+        repository.cadastrarVagas(requestDTO);
     }
 
-    public void updateJobs(VagasRequestDTO vagasReqeuest) {
-        int registroAtualizado = repository.jobUpdate(vagasReqeuest);
+    public void editarVagas(VagasRequestDTO vagasReqeuest) {
+        int registroAtualizado = repository.editarVagas(vagasReqeuest);
     }
 
-    public List<VagasResponseDTO> searchJobs(String jobParamSearch) throws IOException, ParseException {
-        List<Vagas> jobs = repository.searchJobs(jobParamSearch);
+    public List<VagasResponseDTO> buscarVagas(String jobParamSearch) throws IOException, ParseException {
+        List<Vagas> jobs = repository.buscarVagas(jobParamSearch);
 
         HttpResponse<String> response = searchInApi(jobParamSearch);
 
@@ -91,7 +91,7 @@ public class VagasService {
         }
     }
 
-    // Formata a string em um novo objeto JobsDTO
+    // Formata a string em um novo objeto JobsDTO e cria nova lista de objetos
     private List<Vagas> objectFormat(String response) throws JsonProcessingException, ParseException {
 
         List<JobsDTO> novaLista = JsonFormatter.formatJson(response);
@@ -99,7 +99,7 @@ public class VagasService {
 
             for(JobsDTO job : novaLista) {
 
-                if(job.getJobGeo().equals("Anywhere")){
+                if(job.getJobGeo().equals("Anywhere")) {
                     Map<String, String> map = new HashMap<>();
                     map.put("url", job.getUrl());
                     map.put("jobTitle", job.getJobTitle());
@@ -113,7 +113,7 @@ public class VagasService {
                     arrayWithNeweo.add(vaga);
                }
             }
-            return arrayWithNeweo;
+        return arrayWithNeweo;
     }
 
 }

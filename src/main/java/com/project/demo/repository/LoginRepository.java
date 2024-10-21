@@ -34,14 +34,14 @@ public class LoginRepository {
                 .addValue("token", usuarioPfRequest.getToken())
                 .addValue("token", usuarioPfRequest.getToken());
 
-        return namedJdbcTemplate.queryForObject(SqlUsuariosPf.getSql_tokenValidoRepository(), params, String.class);
+        return namedJdbcTemplate.queryForObject(SqlUsuariosPf.getTokenValidoRepository(), params, String.class);
     }
 
     public String consultaEmail(LoginRequest dto) {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", dto.getId());
 
-        return namedJdbcTemplate.queryForObject(SqlUsuariosPf.getSql_consultaEmail(), params, String.class);
+        return namedJdbcTemplate.queryForObject(SqlUsuariosPf.getConsultaEmail(), params, String.class);
     }
 
     public int insereTokenTabela(GeraToken classeToken, LoginRequest dto) {
@@ -58,7 +58,7 @@ public class LoginRepository {
                 .addValue("token", classeToken.getToken())
                 .addValue("datatoken", dataFormatada);
 
-        return namedJdbcTemplate.update(SqlUsuariosPf.getSql_insereTokenTabela(), parametro);
+        return namedJdbcTemplate.update(SqlUsuariosPf.getInsereTokenTabela(), parametro);
     }
 
     public void disparaEmail(String baseUrl, String emailUsiario, GeraToken classeToken) {
@@ -74,19 +74,17 @@ public class LoginRepository {
         javaMailSender.send(mensagem);
     }
 
-    public String validaId(String id)
-    {
+    public String validaId(String id) {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", id, Types.VARCHAR);
 
         return namedJdbcTemplate.queryForObject(SqlLogin.getSql_validaId().replace("#TIPO_IDEN#",id.length() == 14 ? "CNPJ" : "ID").replace("#TIPO_USUARIO#", id.length() == 14 ? "EMPRESAS" : "USUARIOS"), params, String.class);
     }
 
-    public int efeturaLogin(LoginRequest dto)
-    {
+    public int efeturaLogin(LoginRequest dto) {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", dto.getId(), Types.VARCHAR)
-                .addValue("senha", dto.getPassword(), Types.VARCHAR);
+                .addValue("senha", dto.getSenha(), Types.VARCHAR);
 
         Integer result = namedJdbcTemplate.queryForObject(SqlLogin.getSql_validaLogin().replace("#TIPO_USUARIO#", dto.getId().length() == 14 ? "EMPRESAS" : "USUARIOS").replace("#TIPO_IDEN#", dto.getId().length() == 14 ? "CNPJ" : "ID"), params, Integer.class);
 

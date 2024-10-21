@@ -27,33 +27,33 @@ public class VagasController {
     this.service = vagasService;
   }
 
-  @GetMapping("/listJobs")
-    public ResponseEntity<?> listJobs() {
+  @GetMapping("/listarVagas")
+    public ResponseEntity<?> listarVagas() {
       log.info("ENDPOINT / JOB LIST");
 
-      List<VagasResponseDTO> retorno = service.jobList();
+      List<VagasResponseDTO> retorno = service.listarVagas();
       return ResponseEntity.ok(retorno);
   }
 
-  @PostMapping("/jobCreator")
-  public void jobCreator(@RequestBody VagasRequestDTO vagas) {
+  @PostMapping("/cadastrarVagas")
+  public void cadastrarVagas(@RequestBody VagasRequestDTO vagas) {
     log.info("ENDPOINT / JOB CREATE");
 
-    service.jobInsert(vagas);
+    service.cadastrarVagas(vagas);
   }
 
-  @PostMapping("/updateJobs")
-  public void updateJobs(@RequestBody VagasRequestDTO vagas) {
+  @PutMapping("/editarVagas")
+  public void editarVagas(@RequestBody VagasRequestDTO vagas) {
     log.info("ENDPOINT /JOB UPDATE");
 
-    service.updateJobs(vagas);
+    service.editarVagas(vagas);
   }
 
-  @GetMapping("/jobSearch/{jobParamSearch}")
-  public ResponseEntity<?> jobSearch(@PathVariable String jobParamSearch ) throws IOException, InterruptedException, ParseException {
+  @GetMapping("/buscarVagas/{jobInfo}")
+  public ResponseEntity<?> buscarVagas(@PathVariable String jobInfo ) throws IOException, InterruptedException, ParseException {
     log.info("ENDPOINT / JOB SEARCH");
 
-    List<VagasResponseDTO> vagasEncontradas = service.searchJobs(jobParamSearch);
+    List<VagasResponseDTO> vagasEncontradas = service.buscarVagas(jobInfo);
     return ResponseEntity.ok(vagasEncontradas);
   }
 

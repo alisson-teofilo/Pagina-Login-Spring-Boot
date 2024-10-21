@@ -6,20 +6,20 @@ import lombok.Data;
 import java.util.List;
 import java.util.stream.Collectors;
 @Data
-public class UsuarioResponseDTO {
+public class UsuarioPfResponseDTO {
     private String id;
     private String nome;
     private String senha;
 
-    public UsuarioResponseDTO(Usuario Usuario){
+    public UsuarioPfResponseDTO(Usuario Usuario){
         this.id = Usuario.getId();
         this.nome = Usuario.getNome();
     }
 
-    public UsuarioResponseDTO(String message) {
+    public UsuarioPfResponseDTO(String message) {
     }
 
-    public static List<UsuarioResponseDTO> convert(List<Usuario> usuario){
-        return usuario.stream().map(UsuarioResponseDTO::new).collect(Collectors.toList());
+    public static List<UsuarioPfResponseDTO> convert(List<Usuario> usuario){
+        return usuario.stream().map(UsuarioPfResponseDTO::new).collect(Collectors.toList());
     }
 }

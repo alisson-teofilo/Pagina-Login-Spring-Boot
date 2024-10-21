@@ -2,7 +2,7 @@ package com.project.demo.controller;
 
 
 import com.project.demo.dto.requestDTO.UsuarioPfRequest;
-import com.project.demo.dto.responseDTO.UsuarioResponseDTO;
+import com.project.demo.dto.responseDTO.UsuarioPfResponseDTO;
 import com.project.demo.service.UsuarioPfService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,40 +21,55 @@ public class UsuarioPfController {
     UsuarioPfService service;
 
     @Autowired
-    public UsuarioPfController(UsuarioPfService service)
-    {
+    public UsuarioPfController(UsuarioPfService service) {
         this.service = service;
     }
 
     @PostMapping("/cadastrarUsuario")
-    public ResponseEntity<?> createUser(@RequestBody UsuarioPfRequest usuarioPfRequest)
-    {
+    public ResponseEntity<?> createUser(@RequestBody UsuarioPfRequest usuarioPfRequest) {
         log.info("Cadastrar Usuarios");
 
-            service.createUserService(usuarioPfRequest);
+            service.cadastrarUsuario(usuarioPfRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body("Usuário cadastrado com sucesso");
     }
 
-    @GetMapping("/listaUsuarios")
-    public ResponseEntity<List<?>> listaUsuariosController()
-    {
+    @GetMapping("/listarUsuarios")
+    public ResponseEntity<List<?>> listaUsuariosController() {
         log.info("Listar Usuarios");
 
-        List<UsuarioResponseDTO> retornoLista = service.listaUsuarioService();
+        List<UsuarioPfResponseDTO> retornoLista = service.listarUsuario();
             return ResponseEntity.ok(retornoLista);
 
     }
 
-    @PutMapping("/atualizaCadastro")
-    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioPfRequest usuarioPfRequest)
-    {
+    @PutMapping("/atualizarCadastro")
+    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioPfRequest usuarioPfRequest) {
         log.info("Atualizar Usuários");
 
             service.atualizaUsuario(usuarioPfRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body("Usuario atualizado com sucesso");
     }
+
+    @PostMapping("/excluirUsiaro")
+        public ResponseEntity<?> excluirUsuario(@RequestBody UsuarioPfRequest reqeust){
+        log.info("Excluir Usuário");
+
+        service.excluirUsuario(reqeust);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Usuario excluido com sucesso");
+    }
+
+    @PostMapping("/buscarUsuarioPF")
+    public ResponseEntity<?>buscarUsuarioPF(@RequestBody UsuarioPfRequest reqeust){
+        log.info("Buscar empresa");
+
+        service.excluirUsuario(reqeust);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Usuario excluido com sucesso");
+    }
+
 
 
 }

@@ -78,7 +78,6 @@ public class LoginService {
             throw new RegrasNegocioException("Credenciais inválidas") {};
         }
 
-
     }
 
 }

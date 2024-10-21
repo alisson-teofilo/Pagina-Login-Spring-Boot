@@ -1,6 +1,6 @@
 package com.project.demo.service;
 
-import com.project.demo.dto.responseDTO.UsuarioResponseDTO;
+import com.project.demo.dto.responseDTO.UsuarioPfResponseDTO;
 import com.project.demo.model.Usuario;
 import com.project.demo.dto.requestDTO.UsuarioPfRequest;
 import com.project.demo.exeption.RegrasNegocioException;
@@ -18,8 +18,8 @@ import java.util.List;
 @Service
 public class UsuarioPfService {
 
-    private UsuarioPfRepository repository;
-    private LoginRepository loginRepository;
+    private final UsuarioPfRepository repository;
+    private final LoginRepository loginRepository;
 
     @Autowired
     public UsuarioPfService(UsuarioPfRepository repository, LoginRepository loginRepository) {
@@ -28,36 +28,51 @@ public class UsuarioPfService {
     }
 
     @Transactional
-    public void createUserService(UsuarioPfRequest usuarioPfRequest) {
+    public void cadastrarUsuario(UsuarioPfRequest usuarioPfRequest) {
 
-       int retornoRepository = repository.crateUserRepository(usuarioPfRequest);
+       int retornoRepository = repository.cadastrarUsuario(usuarioPfRequest);
+
        if (retornoRepository != 1){
            throw new DataAccessException("Erro ao cadastrar usuário") {};
        }
 
     }
 
-    public List<UsuarioResponseDTO> listaUsuarioService() {
+    public List<UsuarioPfResponseDTO> listarUsuario() {
 
-        List<Usuario> retornoConsulta = repository.listaUsuarioRepository();
+        List<Usuario> retornoConsulta = repository.listarUsuario();
         if(retornoConsulta == null){
             throw new RegrasNegocioException("Usuário não encontrado"){};
         }
 
-        return UsuarioResponseDTO.convert(retornoConsulta);
+        return UsuarioPfResponseDTO.convert(retornoConsulta);
     }
 
     public void atualizaUsuario(UsuarioPfRequest usuarioPfRequest) {
 
-            String retorno = loginRepository.validaId(usuarioPfRequest.getId());
-            if(retorno == null){
-                throw new RegrasNegocioException("Usuário não encontrado");
-            }
+        String retorno = loginRepository.validaId(usuarioPfRequest.getId());
+        if(retorno == null){
+            throw new RegrasNegocioException("Usuário não encontrado");
+        }
 
-            int linhasAtualizadas = repository.atualizaUsuario(usuarioPfRequest);
-            if(linhasAtualizadas != 1){
-                throw new RegrasNegocioException("Erro ao atualizar cadastro de usuário");
-            }
+        int linhasAtualizadas = repository.atualizaUsuario(usuarioPfRequest);
+        if(linhasAtualizadas != 1){
+           throw new RegrasNegocioException("Erro ao atualizar cadastro de usuário");
+        }
     }
 
+    public void excluirUsuario(UsuarioPfRequest request) {
+
+        String retorno = loginRepository.validaId(request.getId());
+        if(retorno == null){
+            throw new RegrasNegocioException("Usuário não encontrado");
+        }
+
+        repository.excluirUsuario(request);
+    }
+
+    public void buscarUsuarioPF(UsuarioPfRequest request) {
+
+        repository.excluirUsuario(request);
+    }
 }

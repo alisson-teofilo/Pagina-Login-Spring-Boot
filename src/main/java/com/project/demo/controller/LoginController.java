@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("login")
+@RequestMapping("link-vagas/login")
 public class LoginController {
 
     LoginService loginService;
@@ -25,8 +25,7 @@ public class LoginController {
     }
 
     @PostMapping("/validaToken")
-    public ResponseEntity<?> validaToken(@RequestBody UsuarioPfRequest usuarioPfRequest, GeraToken classtoken, UsuarioPfRequest response)
-    {
+    public ResponseEntity<?> validaToken(@RequestBody UsuarioPfRequest usuarioPfRequest, GeraToken classtoken, UsuarioPfRequest response) {
         log.info("Validar Token");
 
         loginService.validaToken(usuarioPfRequest, classtoken, response);
@@ -35,8 +34,7 @@ public class LoginController {
     }
 
     @PostMapping("/enviaEmail")
-    public ResponseEntity<?> enviaEmail(@RequestBody LoginRequest dto, GeraToken classeToken)
-    {
+    public ResponseEntity<?> enviaEmail(@RequestBody LoginRequest dto, GeraToken classeToken) {
         log.info("Enviar Email");
 
         loginService.enviarEmail(dto, classeToken);
@@ -45,10 +43,9 @@ public class LoginController {
     }
 
     @PostMapping("/efetuarLogin")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest dto)
-    {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest dto) {
         log.info("Logando");
-
+        System.out.println(dto);
         loginService.loginUserService(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body("Login Autorizado!");
