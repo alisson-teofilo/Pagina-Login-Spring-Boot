@@ -16,7 +16,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @RestController
-@RequestMapping("vagas")
+@RequestMapping("link-vagas/vagas")
 @Slf4j
 public class VagasController {
 
@@ -49,11 +49,11 @@ public class VagasController {
     service.editarVagas(vagas);
   }
 
-  @GetMapping("/buscarVagas/{jobInfo}")
-  public ResponseEntity<?> buscarVagas(@PathVariable String jobInfo ) throws IOException, InterruptedException, ParseException {
-    log.info("ENDPOINT / JOB SEARCH");
+  @PostMapping("/buscarVagas")
+  public ResponseEntity<?> buscarVagas(@RequestBody VagasRequestDTO request ) throws IOException, ParseException {
+    log.info("ENDPOINT / BUSCAR VAGA");
 
-    List<VagasResponseDTO> vagasEncontradas = service.buscarVagas(jobInfo);
+    List<VagasResponseDTO> vagasEncontradas = service.buscarVagas(request);
     return ResponseEntity.ok(vagasEncontradas);
   }
 

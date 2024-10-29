@@ -14,18 +14,22 @@ import java.util.stream.Collectors;
 @Data
 public class VagasResponseDTO {
 
+    private String id;
     private String titulo;
     private String descricao;
     private Date dataPublicacao;
     private int valorMensal;
     private String localAtuacao;
-
     private String url;
     private String companyName;
     private String companyLogo;
     private String jobLevel;
 
     public VagasResponseDTO(Vagas vagas){
+        this.id = vagas.getId();
+        this.companyName = vagas.getCompanyName();
+        this.companyLogo = vagas.getCompanyLogo();
+        this.url = vagas.getUrl();
         this.titulo = vagas.getTitulo();
         this.descricao = vagas.getDescricao();
         this.dataPublicacao = vagas.getDataPublicacao();

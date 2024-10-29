@@ -24,6 +24,7 @@ import java.util.*;
 public class VagasService {
 
     private VagasRepository repository;
+    private HttpResponse<String> apiResponse = null;
 
     @Autowired
     public VagasService(VagasRepository vagasRepository) {
@@ -46,16 +47,29 @@ public class VagasService {
         int registroAtualizado = repository.editarVagas(vagasReqeuest);
     }
 
-    public List<VagasResponseDTO> buscarVagas(String jobParamSearch) throws IOException, ParseException {
-        List<Vagas> jobs = repository.buscarVagas(jobParamSearch);
+    public List<VagasResponseDTO> buscarVagas(VagasRequestDTO request) throws IOException, ParseException {
 
-        HttpResponse<String> response = searchInApi(jobParamSearch);
+        List<Vagas> listaVagasUnificadas = null;
+        List<Vagas> listaVagasInternas = repository.buscarVagas(request);
+        System.out.println(listaVagasInternas);
 
-        List<Vagas> arrayApi = objectFormat(response.body());
+        // Se não há descrição não chamamos a API externa
+        if(request.getPlataforma().equals("Externo")) {
 
-        List<Vagas> newArray = listUnify(arrayApi, jobs);
+            if (apiResponse == null) {
+                apiResponse = searchInApi(request.getDescricao());
+            }
 
-        return VagasResponseDTO.convert(newArray);
+            List<Vagas> arrayApi = objectFormat(apiResponse.body());
+
+            listaVagasUnificadas = listUnify(arrayApi, listaVagasInternas);
+        }
+
+        if(listaVagasInternas.isEmpty() && listaVagasUnificadas == null ){
+            throw new RegrasNegocioException("NENHUMA VAGA ENCONTRADA");
+        }
+
+        return VagasResponseDTO.convert(listaVagasUnificadas != null ? listaVagasUnificadas : listaVagasInternas);
     }
 
     // Unifica os arrays de objetos
@@ -94,13 +108,15 @@ public class VagasService {
     // Formata a string em um novo objeto JobsDTO e cria nova lista de objetos
     private List<Vagas> objectFormat(String response) throws JsonProcessingException, ParseException {
 
-        List<JobsDTO> novaLista = JsonFormatter.formatJson(response);
-        List<Vagas> arrayWithNeweo = new ArrayList<>();
+        List<JobsDTO> jsonFormatado = JsonFormatter.formatJson(response);
+        List<Vagas> listaVagasFiltrada = new ArrayList<>();
 
-            for(JobsDTO job : novaLista) {
+            for(JobsDTO job : jsonFormatado) {
 
                 if(job.getJobGeo().equals("Anywhere")) {
+
                     Map<String, String> map = new HashMap<>();
+                    map.put("id", Integer.toString(job.getId()));
                     map.put("url", job.getUrl());
                     map.put("jobTitle", job.getJobTitle());
                     map.put("companyName", job.getCompanyName());
@@ -109,11 +125,13 @@ public class VagasService {
                     map.put("jobLevel", job.getJobLevel());
                     map.put("jobDescription", job.getJobDescription());
                     map.put("pubDate", job.getPubDate());
+
                     Vagas vaga = new Vagas(map);
-                    arrayWithNeweo.add(vaga);
+
+                    listaVagasFiltrada.add(vaga);
                }
             }
-        return arrayWithNeweo;
+        return listaVagasFiltrada;
     }
 
 }

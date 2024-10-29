@@ -13,4 +13,5 @@ public class VagasRequestDTO {
     private Date dataPublicacao;
     private int valorMensal;
     private String localAtuacao;
+    private String  plataforma;
 }

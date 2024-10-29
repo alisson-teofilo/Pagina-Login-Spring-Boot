@@ -75,13 +75,7 @@ public class UsuarioPfRepository {
         namedJdbcTemplate.update(SqlUsuariosPf.getExcluirUsuario(), params);
     }
 
-    public void buscarUsuarioPF(UsuarioPfRequest request){
 
-        SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", request.getId(), Types.VARCHAR);
-
-        namedJdbcTemplate.update(SqlUsuariosPf.getExcluirUsuario(), params);
-    }
 }
 
 

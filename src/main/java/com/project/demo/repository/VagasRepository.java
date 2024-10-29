@@ -52,10 +52,9 @@ public class VagasRepository {
         return namedJdbcTemplate.update(SqlVagas.getSql_jobUpdate(), params);
     }
 
-    public List<Vagas> buscarVagas(String jobParamSearch)
-    {
+    public List<Vagas> buscarVagas(VagasRequestDTO request) {
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("PALAVRA_CHAVE", jobParamSearch);
+                .addValue("DESCRICAO", request.getDescricao());
 
         return namedJdbcTemplate.query(SqlVagas.getSql_searchJobs(), params, new BeanPropertyRowMapper<>(Vagas.class));
     }

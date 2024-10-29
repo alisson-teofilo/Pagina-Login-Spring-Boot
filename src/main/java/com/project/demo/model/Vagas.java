@@ -15,6 +15,7 @@ import java.util.Map;
 
 public class Vagas {
 
+    private String id;
     private String cnpjEmpresa;
     private String titulo;
     private String descricao;
@@ -28,6 +29,7 @@ public class Vagas {
     private String jobLevel;
 
     public Vagas(Map<String, String> map) throws ParseException {
+        this.id = map.get("id");
         this.url = map.get("url");
         this.titulo = map.get("jobTitle");
         this.companyName = map.get("companyName");

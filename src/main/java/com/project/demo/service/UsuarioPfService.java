@@ -71,8 +71,4 @@ public class UsuarioPfService {
         repository.excluirUsuario(request);
     }
 
-    public void buscarUsuarioPF(UsuarioPfRequest request) {
-
-        repository.excluirUsuario(request);
-    }
 }

@@ -61,15 +61,4 @@ public class UsuarioPfController {
         return ResponseEntity.status(HttpStatus.OK).body("Usuario excluido com sucesso");
     }
 
-    @PostMapping("/buscarUsuarioPF")
-    public ResponseEntity<?>buscarUsuarioPF(@RequestBody UsuarioPfRequest reqeust){
-        log.info("Buscar empresa");
-
-        service.excluirUsuario(reqeust);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Usuario excluido com sucesso");
-    }
-
-
-
 }
