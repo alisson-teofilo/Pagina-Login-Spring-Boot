@@ -39,8 +39,26 @@ public class VagasService {
         return VagasResponseDTO.convert(retorno);
     }
 
+    public List<VagasResponseDTO> listarCandidaturasByUsuaio(String cpfUsuario) {
+        List<Vagas> retorno = repository.listarCandidaturasByUsuaio(cpfUsuario);
+        if (retorno.isEmpty()) {
+            throw new RegrasNegocioException("Erro ao listar vagas");
+        }
+        return VagasResponseDTO.convert(retorno);
+    }
+
     public void cadastrarVagas(VagasRequestDTO requestDTO) {
         repository.cadastrarVagas(requestDTO);
+    }
+
+    public void candidatarVaga(VagasRequestDTO requestDTO) {
+
+        repository.candidatarVaga(requestDTO);
+    }
+
+    public void deletarCandidatura(VagasRequestDTO requestDTO) {
+
+        repository.deletarCandidatura(requestDTO);
     }
 
     public void editarVagas(VagasRequestDTO vagasReqeuest) {
@@ -51,7 +69,6 @@ public class VagasService {
 
         List<Vagas> listaVagasUnificadas = null;
         List<Vagas> listaVagasInternas = repository.buscarVagas(request);
-        System.out.println(listaVagasInternas);
 
         // Se não há descrição não chamamos a API externa
         if(request.getPlataforma().equals("Externo")) {

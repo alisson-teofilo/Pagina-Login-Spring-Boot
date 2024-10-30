@@ -1,7 +1,7 @@
 package com.project.demo.service;
 
 import com.project.demo.dto.responseDTO.UsuarioPfResponseDTO;
-import com.project.demo.model.Usuario;
+import com.project.demo.model.UsuarioPF;
 import com.project.demo.dto.requestDTO.UsuarioPfRequest;
 import com.project.demo.exeption.RegrasNegocioException;
 import com.project.demo.repository.LoginRepository;
@@ -40,7 +40,7 @@ public class UsuarioPfService {
 
     public List<UsuarioPfResponseDTO> listarUsuario() {
 
-        List<Usuario> retornoConsulta = repository.listarUsuario();
+        List<UsuarioPF> retornoConsulta = repository.listarUsuario();
         if(retornoConsulta == null){
             throw new RegrasNegocioException("Usuário não encontrado"){};
         }
@@ -71,4 +71,8 @@ public class UsuarioPfService {
         repository.excluirUsuario(request);
     }
 
+    public UsuarioPfResponseDTO buscarUsuario(String id) {
+        UsuarioPF usuario = repository.buscarUsuario(id);
+        return UsuarioPfResponseDTO.convert(usuario);
+    }
 }

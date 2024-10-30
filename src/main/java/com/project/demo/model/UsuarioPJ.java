@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+public class UsuarioPJ {
 
-    private String cpf;
+    private String cnpj;
     private String id;
-    private String nome;
+    private String nomeFantasia;
     private String senha;
     private String email;
     private String token;

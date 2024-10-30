@@ -2,6 +2,7 @@ package com.project.demo.controller;
 
 
 import com.project.demo.dto.requestDTO.UsuarioPjRequest;
+import com.project.demo.dto.responseDTO.UsuarioPjResponseDTO;
 import com.project.demo.service.UsuarioPjService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.text.ParseException;
 
 
 @RestController
-@RequestMapping("/empresa")
+@RequestMapping("link-vagas/empresa")
 @Slf4j
 public class UsuarioPjController {
 
@@ -35,8 +36,7 @@ public class UsuarioPjController {
     }
 
     @PutMapping("/atualizaCadastro")
-    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioPjRequest usuarioPfRequest)
-    {
+    public ResponseEntity<?> updateUsuario(@RequestBody UsuarioPjRequest usuarioPfRequest){
         System.out.println(usuarioPfRequest);
         log.info("Atualizar Empesa");
 
@@ -45,5 +45,13 @@ public class UsuarioPjController {
         return ResponseEntity.status(HttpStatus.OK).body("Usuario atualizado com sucesso");
     }
 
+    @GetMapping("buscarusuario/{cnpj}")
+    public ResponseEntity<?> buscarUsuario(@PathVariable String cnpj){
+        log.info("Buscando usuário");
+
+        UsuarioPjResponseDTO usuario = service.buscarUsuario(cnpj);
+
+        return ResponseEntity.ok(usuario);
+    }
 
 }

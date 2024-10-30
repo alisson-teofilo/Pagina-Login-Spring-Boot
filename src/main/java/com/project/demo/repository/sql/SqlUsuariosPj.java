@@ -8,19 +8,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class SqlUsuariosPj {
 
-    @Getter
-    private static String sql_crateUserRepository = """
+    public static String crateUserRepository = """
             INSERT INTO ALISSON.EMPRESAS
             (RAZAO_SOCIAL, NOME_FANTASIA, CNPJ, FUNDACAO, EMAIL , SEGMENTO , SENHA, NUMERO_FUNCIONARIOS)
             VALUES 
             (:RAZAO_SOCIAL, :NOME_FANTASIA, :CNPJ, :FUNDACAO, :EMAIL, :SEGMENTO, :SENHA, :NUMERO_FUNCIONARIOS)
             """;
 
-    @Getter
-    private static String sql_updateUserPj = """
+    public static String updateUserPj = """
             UPDATE ALISSON.EMPRESAS
             	SET NOME_FANTASIA  = :NOME_FANTASIA, FUNDACAO  = :FUNDACAO, EMAIL = :EMAIL, SEGMENTO = :SEGMENTO, SENHA = :SENHA, NUMERO_FUNCIONARIOS = :NUMERO_FUNCIONARIOS
             WHERE CNPJ = :CNPJ
             """;
 
+    public static String buscarUsuario = "SELECT * FROM ALISSON.EMPRESAS WHERE CNPJ = :CNPJ";
 }

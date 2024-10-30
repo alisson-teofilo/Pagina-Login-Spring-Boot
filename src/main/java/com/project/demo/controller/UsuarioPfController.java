@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("link-vagas/usuarioPF")
 @Slf4j
 public class UsuarioPfController {
 
@@ -53,7 +53,7 @@ public class UsuarioPfController {
     }
 
     @PostMapping("/excluirUsiaro")
-        public ResponseEntity<?> excluirUsuario(@RequestBody UsuarioPfRequest reqeust){
+    public ResponseEntity<?> excluirUsuario(@RequestBody UsuarioPfRequest reqeust){
         log.info("Excluir Usuário");
 
         service.excluirUsuario(reqeust);
@@ -61,4 +61,14 @@ public class UsuarioPfController {
         return ResponseEntity.status(HttpStatus.OK).body("Usuario excluido com sucesso");
     }
 
+    @GetMapping("/buscarUsuario/{id}")
+    public ResponseEntity<?> buscarUsuario(@PathVariable String id){
+        log.info("Buscando usuário");
+
+        UsuarioPfResponseDTO usuario = service.buscarUsuario(id);
+
+        return ResponseEntity.ok(usuario);
+    }
+
 }
+

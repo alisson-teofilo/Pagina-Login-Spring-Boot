@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 @Data
 public class VagasResponseDTO {
-
-    private String id;
+    private String ROWID;
+    private String idVaga;
     private String titulo;
     private String descricao;
     private Date dataPublicacao;
@@ -26,7 +26,8 @@ public class VagasResponseDTO {
     private String jobLevel;
 
     public VagasResponseDTO(Vagas vagas){
-        this.id = vagas.getId();
+        this.ROWID = vagas.getROWID();
+        this.idVaga = vagas.getIdVaga();
         this.companyName = vagas.getCompanyName();
         this.companyLogo = vagas.getCompanyLogo();
         this.url = vagas.getUrl();

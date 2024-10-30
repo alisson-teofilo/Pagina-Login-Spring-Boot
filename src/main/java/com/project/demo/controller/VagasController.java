@@ -35,11 +35,33 @@ public class VagasController {
       return ResponseEntity.ok(retorno);
   }
 
+  @GetMapping("/listarCandidaturasByUsuaio/{cpfUsuario}")
+    public ResponseEntity<?> listarCandidaturasByUsuaio(@PathVariable String cpfUsuario) {
+      log.info("ENDPOINT / CANDIDATURAS POR USUÁRIO");
+
+      List<VagasResponseDTO> retorno = service.listarCandidaturasByUsuaio(cpfUsuario);
+      return ResponseEntity.ok(retorno);
+  }
+
   @PostMapping("/cadastrarVagas")
   public void cadastrarVagas(@RequestBody VagasRequestDTO vagas) {
     log.info("ENDPOINT / JOB CREATE");
 
     service.cadastrarVagas(vagas);
+  }
+
+  @PostMapping("/candidatarVaga")
+  public void candidatarVaga(@RequestBody VagasRequestDTO vagas) {
+    log.info("ENDPOINT / CANDIDATAR VAGA");
+
+    service.candidatarVaga(vagas);
+  }
+
+  @PostMapping("/deletarCandidatura")
+  public void deletarCandidatura(@RequestBody VagasRequestDTO vagas) {
+    log.info("ENDPOINT / DELETAR CANDIDATURA");
+
+    service.deletarCandidatura(vagas);
   }
 
   @PutMapping("/editarVagas")

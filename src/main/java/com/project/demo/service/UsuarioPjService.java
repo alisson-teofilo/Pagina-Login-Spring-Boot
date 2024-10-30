@@ -1,6 +1,8 @@
 package com.project.demo.service;
 
 import com.project.demo.dto.requestDTO.UsuarioPjRequest;
+import com.project.demo.dto.responseDTO.UsuarioPjResponseDTO;
+import com.project.demo.model.UsuarioPJ;
 import com.project.demo.repository.UsuarioPjRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,5 +25,11 @@ public class UsuarioPjService {
 
     public void atualizaUsuarioPj(UsuarioPjRequest request) {
         repository.updateUserPj(request);
+    }
+
+    public UsuarioPjResponseDTO buscarUsuario(String cnpj) {
+        UsuarioPJ usuarioPJ = repository.buscarUsuarioPJ(cnpj);
+
+        return UsuarioPjResponseDTO.convert(usuarioPJ);
     }
 }

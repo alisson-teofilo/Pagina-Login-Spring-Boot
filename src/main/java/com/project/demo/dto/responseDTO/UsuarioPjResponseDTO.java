@@ -1,6 +1,7 @@
 package com.project.demo.dto.responseDTO;
 
-import com.project.demo.model.Usuario;
+import com.project.demo.model.UsuarioPF;
+import com.project.demo.model.UsuarioPJ;
 import lombok.Data;
 
 import java.util.List;
@@ -8,19 +9,21 @@ import java.util.stream.Collectors;
 
 @Data
 public class UsuarioPjResponseDTO {
-    private String id;
-    private String nome;
-    private String senha;
+    private String cnpj;
+    private String nomeFantasia;
+    private String email;
 
-    public UsuarioPjResponseDTO(Usuario Usuario){
-        this.id = Usuario.getId();
-        this.nome = Usuario.getNome();
+    public UsuarioPjResponseDTO(UsuarioPJ pj){
+        this.cnpj = pj.getCnpj();
+        this.nomeFantasia = pj.getNomeFantasia();
+        this.email = pj.getEmail();
     }
 
-    public UsuarioPjResponseDTO(String message) {
+    public static List<UsuarioPjResponseDTO> convert(List<UsuarioPJ> pj){
+        return pj.stream().map(UsuarioPjResponseDTO::new).collect(Collectors.toList());
     }
 
-    public static List<UsuarioPjResponseDTO> convert(List<Usuario> usuario){
-        return usuario.stream().map(UsuarioPjResponseDTO::new).collect(Collectors.toList());
+    public static UsuarioPjResponseDTO convert(UsuarioPJ pj){
+        return new UsuarioPjResponseDTO(pj);
     }
 }

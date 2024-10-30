@@ -1,29 +1,23 @@
 package com.project.demo.repository;
 
 import com.project.demo.dto.requestDTO.UsuarioPfRequest;
-import com.project.demo.model.Usuario;
+import com.project.demo.dto.responseDTO.UsuarioPfResponseDTO;
+import com.project.demo.model.UsuarioPF;
 import com.project.demo.repository.sql.SqlUsuariosPf;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.CallableStatementCallback;
-import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Types;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Repository
@@ -45,14 +39,14 @@ public class UsuarioPfRepository {
                 .addValue("email", usuarioPfRequest.getEmail())
                 .addValue("senha", usuarioPfRequest.getSenha());
 
-        return namedJdbcTemplate.update(SqlUsuariosPf.getCadastrarUsuario(), params);
+        return namedJdbcTemplate.update(SqlUsuariosPf.cadastrarUsuario, params);
     }
 
 
-    public List<Usuario> listarUsuario() {
+    public List<UsuarioPF> listarUsuario() {
         try {
 
-             return namedJdbcTemplate.query(SqlUsuariosPf.getListaUsuario(), new BeanPropertyRowMapper<>(Usuario.class));
+             return namedJdbcTemplate.query(SqlUsuariosPf.listaUsuario, new BeanPropertyRowMapper<>(UsuarioPF.class));
 
         } catch (EmptyResultDataAccessException e){
             return null;
@@ -61,10 +55,13 @@ public class UsuarioPfRepository {
 
     public int atualizaUsuario(UsuarioPfRequest usuarioPfRequest) {
       SqlParameterSource params = new MapSqlParameterSource()
-           .addValue("nome", usuarioPfRequest.getNome(), Types.VARCHAR)
-           .addValue("senha", usuarioPfRequest.getSenha(), Types.VARCHAR)
-           .addValue("id", usuarioPfRequest.getId(), Types.VARCHAR);
-      return namedJdbcTemplate.update(SqlUsuariosPf.getAtualizaUsuario(), params);
+           .addValue("NOME", usuarioPfRequest.getNome(), Types.VARCHAR)
+           .addValue("EMAIL", usuarioPfRequest.getEmail(), Types.VARCHAR)
+           .addValue("SENHA", usuarioPfRequest.getSenha(), Types.VARCHAR)
+           .addValue("CARGO_ATUAL", usuarioPfRequest.getCargoAtual(), Types.VARCHAR)
+           .addValue("ID", usuarioPfRequest.getId(), Types.VARCHAR);
+
+      return namedJdbcTemplate.update(SqlUsuariosPf.atualizaUsuario, params);
     }
 
     public void excluirUsuario(UsuarioPfRequest request){
@@ -72,10 +69,16 @@ public class UsuarioPfRepository {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", request.getId(), Types.VARCHAR);
 
-        namedJdbcTemplate.update(SqlUsuariosPf.getExcluirUsuario(), params);
+        namedJdbcTemplate.update(SqlUsuariosPf.excluirUsuario, params);
     }
 
 
+    public UsuarioPF buscarUsuario(String id) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("ID", id, Types.VARCHAR);
+
+        return namedJdbcTemplate.queryForObject(SqlUsuariosPf.buscarusuario, params, new BeanPropertyRowMapper<>(UsuarioPF.class));
+    }
 }
 
 

@@ -1,19 +1,20 @@
-package com.project.demo.dto.requestDTO;
+package com.project.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioPfRequest {
+@AllArgsConstructor
+public class UsuarioPF {
 
+    private String cpf;
     private String id;
     private String nome;
     private String senha;
     private String email;
-    private String cargoAtual;
     private String token;
-    private String cpf;
+    private String cargoAtual;
+
 }

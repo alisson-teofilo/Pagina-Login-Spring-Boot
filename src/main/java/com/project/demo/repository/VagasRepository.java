@@ -26,7 +26,13 @@ public class VagasRepository {
     }
 
     public List<Vagas> listarVagas() {
-        return namedJdbcTemplate.query(SqlVagas.getSql_listarVagas(), new BeanPropertyRowMapper<>(Vagas.class));
+        return namedJdbcTemplate.query(SqlVagas.listarVagas, new BeanPropertyRowMapper<>(Vagas.class));
+    }
+
+    public List<Vagas> listarCandidaturasByUsuaio(String cpfUsuario) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("CPF_USUARIO", cpfUsuario);
+        return namedJdbcTemplate.query(SqlVagas.listarCandidaturasByUsuaio, params, new BeanPropertyRowMapper<>(Vagas.class));
     }
 
     public void cadastrarVagas(VagasRequestDTO request) {
@@ -38,25 +44,38 @@ public class VagasRepository {
                         .addValue("VALOR_MENSAL",request.getValorMensal())
                         .addValue("LOCAL_ATUACAO",request.getLocalAtuacao());
 
-        namedJdbcTemplate.update(SqlVagas.getSql_inserirVaga(), params);
+        namedJdbcTemplate.update(SqlVagas.inserirVaga, params);
     }
 
-    public int editarVagas(VagasRequestDTO vagasReqeuest)
-    {
+    public void candidatarVaga(VagasRequestDTO request) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                        .addValue("CPF_USUARIO",request.getCpfUsuario())
+                        .addValue("ID_VAGA",Integer.parseInt(request.getIdVaga()));
+
+        namedJdbcTemplate.update(SqlVagas.candidatarVaga, params);
+    }
+
+    public void deletarCandidatura(VagasRequestDTO request) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                        .addValue("ROWID",request.getROWID());
+
+        namedJdbcTemplate.update(SqlVagas.deletarCandidatura, params);
+    }
+
+    public int editarVagas(VagasRequestDTO vagasReqeuest) {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("TITULO",vagasReqeuest.getTitulo())
                 .addValue("DESCRICAO",vagasReqeuest.getDescricao())
                 .addValue("VALOR_MENSAL",vagasReqeuest.getValorMensal())
-                .addValue("LOCAL_ATUACAO", vagasReqeuest.getLocalAtuacao())
                 .addValue("CNPJ", vagasReqeuest.getCnpjEmpresa());
-        return namedJdbcTemplate.update(SqlVagas.getSql_jobUpdate(), params);
+        return namedJdbcTemplate.update(SqlVagas.jobUpdate, params);
     }
 
     public List<Vagas> buscarVagas(VagasRequestDTO request) {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("DESCRICAO", request.getDescricao());
 
-        return namedJdbcTemplate.query(SqlVagas.getSql_searchJobs(), params, new BeanPropertyRowMapper<>(Vagas.class));
+        return namedJdbcTemplate.query(SqlVagas.searchJobs, params, new BeanPropertyRowMapper<>(Vagas.class));
     }
 }
 
