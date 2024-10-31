@@ -12,4 +12,10 @@ public class SqlLogin {
 
     public static String validaId = "SELECT CASE WHEN EXISTS(SELECT #TIPO_IDEN# FROM ALISSON.#TIPO_USUARIO# WHERE #TIPO_IDEN# = :id) THEN (SELECT #TIPO_IDEN# FROM ALISSON.#TIPO_USUARIO# WHERE #TIPO_IDEN# = :id) ELSE '0' END AS ID FROM DUAL";
 
+    public static String atualizarSenhaUsuario = "UPDATE ALISSON.USUARIOS u SET u.SENHA = :SENHA WHERE u.ID = :ID";
+
+    public static String atualizarSenhaEmpresa = "UPDATE ALISSON.EMPRESAS e SET e.SENHA = :SENHA WHERE e.CNPJ = :CNPJ";
+
+
+
 }

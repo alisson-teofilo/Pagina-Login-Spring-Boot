@@ -65,7 +65,6 @@ public class VagasRepository {
     }
 
     public int editarVagas(VagasRequestDTO vagasReqeuest) {
-        System.out.println(vagasReqeuest);
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("TITULO",vagasReqeuest.getTitulo())
                 .addValue("DESCRICAO",vagasReqeuest.getDescricao())

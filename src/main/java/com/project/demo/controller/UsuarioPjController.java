@@ -37,7 +37,6 @@ public class UsuarioPjController {
 
     @PutMapping("/editarCadastroEmpresa")
     public ResponseEntity<?> updateUsuario(@RequestBody UsuarioPjRequest usuarioPfRequest){
-        System.out.println(usuarioPfRequest);
         log.info("Atualizar Empesa");
 
             service.atualizaUsuarioPj(usuarioPfRequest);

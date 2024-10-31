@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -16,12 +17,12 @@ import java.util.UUID;
 public class GeraToken {
 
     private String token;
-    private LocalDate dataToken;
+    private LocalDateTime dataToken;
 
     // Construtor
     public GeraToken(){
         this.token = geraTokenString();
-        this.dataToken = LocalDate.now().plusDays(1);
+        this.dataToken = LocalDateTime.now().plusDays(1);
     }
 
     // Gera o token
@@ -30,8 +31,8 @@ public class GeraToken {
     }
 
     // Verifica a validade do Token
-    public boolean ehTokenValido(LocalDate dadosTokenUsuario){
-        return LocalDate.now().isAfter(dadosTokenUsuario);
+    public static boolean ehTokenValido(LocalDateTime dadosTokenUsuario){
+        return LocalDateTime.now().isAfter(dadosTokenUsuario);
     }
 
 }

@@ -12,10 +12,7 @@ public class TesteConversaoJson {
         Gson gson = new Gson();
         String arrayJson = gson.toJson(arrayString);
 
-        System.out.println(arrayJson);
-
         boolean isJsonValid = isJSONValid(arrayJson);
-        System.out.println("É um JSON válido? " + isJsonValid);
     }
 
     public static boolean isJSONValid(String jsonString) {

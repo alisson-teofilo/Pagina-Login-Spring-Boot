@@ -19,16 +19,15 @@ public class LoginController {
 
     LoginService loginService;
 
-    public LoginController(LoginService loginService)
-    {
+    public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
-    @PostMapping("/validaToken")
-    public ResponseEntity<?> validaToken(@RequestBody UsuarioPfRequest usuarioPfRequest, GeraToken classtoken, UsuarioPfRequest response) {
+    @PostMapping("/validarToken")
+    public ResponseEntity<?> validaToken(@RequestBody LoginRequest request) {
         log.info("Validar Token");
 
-        loginService.validaToken(usuarioPfRequest, classtoken, response);
+        loginService.validaToken(request);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -36,7 +35,6 @@ public class LoginController {
     @PostMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(@RequestBody LoginRequest dto, GeraToken classeToken) {
         log.info("Enviar Email");
-
         loginService.enviarEmail(dto, classeToken);
 
         return ResponseEntity.status(HttpStatus.OK).body("Instruções foram enviadas no seu Email.");
@@ -48,6 +46,22 @@ public class LoginController {
         loginService.loginUserService(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body("Login Autorizado!");
+    }
+
+    @PostMapping("/recuperarSenhaUsuario")
+    public ResponseEntity<?> recuperarSenhaUsuario(@RequestBody LoginRequest dto) {
+        log.info("Logando");
+        loginService.recuperarSenhaUsuario(dto);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Senha atualizada com sucesso!");
+    }
+
+    @PostMapping("/recuperarSenhaEmpresa")
+    public ResponseEntity<?> recuperarSenhaEmpresa(@RequestBody LoginRequest dto) {
+        log.info("Logando");
+        loginService.recuperarSenhaEmpresa(dto);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Senha atualizada com sucesso!");
     }
 
 }

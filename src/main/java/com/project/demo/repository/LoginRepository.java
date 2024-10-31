@@ -29,10 +29,10 @@ public class LoginRepository {
         this.javaMailSender = javaMailSender;
     }
 
-    public String tokenValidoRepository(UsuarioPfRequest usuarioPfRequest) {
+    public String tokenValidoRepository(LoginRequest request) {
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("token", usuarioPfRequest.getToken())
-                .addValue("token", usuarioPfRequest.getToken());
+                .addValue("token", request.getToken())
+                .addValue("token", request.getToken());
 
         return namedJdbcTemplate.queryForObject(SqlUsuariosPf.tokenValidoRepository, params, String.class);
     }
@@ -45,6 +45,7 @@ public class LoginRepository {
     }
 
     public int insereTokenTabela(GeraToken classeToken, LoginRequest dto) {
+
         // converte a data em String
         DateTimeFormatter formataDataString = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dataFormatadaString = classeToken.getDataToken().format(formataDataString);
@@ -61,15 +62,17 @@ public class LoginRepository {
         return namedJdbcTemplate.update(SqlUsuariosPf.insereTokenTabela, parametro);
     }
 
-    public void disparaEmail(String baseUrl, String emailUsiario, GeraToken classeToken) {
+    public void disparaEmail(String baseUrl, String emailUsiario, GeraToken classeToken, LoginRequest dto) {
+
         String paramsUrl = "?params=";
+        String paramID = "&paramID=";
 
         //Envia o email para o usuário
         var mensagem = new SimpleMailMessage();
 
         mensagem.setTo(emailUsiario);
         mensagem.setSubject("Requição troca de Email");
-        mensagem.setText("Para redefinir a sua senha clique no link: " + baseUrl + paramsUrl + classeToken.getToken());
+        mensagem.setText("Para redefinir a sua senha clique no link: " + baseUrl + paramsUrl + classeToken.getToken() + paramID + dto.getId());
 
         javaMailSender.send(mensagem);
     }
@@ -89,6 +92,23 @@ public class LoginRepository {
         Integer result = namedJdbcTemplate.queryForObject(SqlLogin.validaLogin.replace("#TIPO_USUARIO#", dto.getId().length() == 14 ? "EMPRESAS" : "USUARIOS").replace("#TIPO_IDEN#", dto.getId().length() == 14 ? "CNPJ" : "ID"), params, Integer.class);
 
         return result != null ? result : 0;
+    }
+
+    public int recuperarSenhaUsuario(LoginRequest dto) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("ID", dto.getId(), Types.VARCHAR)
+                .addValue("SENHA", dto.getSenha(), Types.VARCHAR);
+
+        return namedJdbcTemplate.update(SqlLogin.atualizarSenhaUsuario, params);
+    }
+
+    public int recuperarSenhaEmpresa(LoginRequest dto) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("CNPJ", dto.getId(), Types.VARCHAR)
+                .addValue("SENHA", dto.getSenha(), Types.VARCHAR);
+
+        return namedJdbcTemplate.update(SqlLogin.atualizarSenhaEmpresa, params);
+
     }
 
 

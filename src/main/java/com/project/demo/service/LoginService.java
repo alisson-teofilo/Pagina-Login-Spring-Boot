@@ -1,14 +1,12 @@
 package com.project.demo.service;
 
 import com.project.demo.dto.requestDTO.LoginRequest;
-import com.project.demo.dto.requestDTO.UsuarioPfRequest;
 import com.project.demo.exeption.RegrasNegocioException;
 import com.project.demo.repository.LoginRepository;
 import com.project.demo.repository.UsuarioPfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -23,18 +21,21 @@ public class LoginService {
         this.userRepository = userRepository;
     }
 
-    public void validaToken(UsuarioPfRequest usuarioPfRequest, GeraToken classeToken, UsuarioPfRequest response) {
+    public void validaToken(LoginRequest request) {
 
-        String dataTokenUsuario = repository.tokenValidoRepository(usuarioPfRequest);
+        // valida se o token existe
+        String dataTokenUsuario = repository.tokenValidoRepository(request);
         if(dataTokenUsuario.equals("0")){
             throw new RegrasNegocioException("Token não encontrado");
         }
 
         // converte a string em LocalDate
-        DateTimeFormatter formataData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDate dataFormatada = LocalDate.parse(dataTokenUsuario, formataData);
+        DateTimeFormatter formataData = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss,SSSSSSSSS");
+        LocalDateTime dataFormatada = LocalDateTime.parse(dataTokenUsuario, formataData);
 
-        if(classeToken.ehTokenValido(dataFormatada)){
+
+        // valida se o token já expirou
+        if(GeraToken.ehTokenValido(dataFormatada)){
             throw new RegrasNegocioException("Token expirado");
         }
     }
@@ -42,7 +43,7 @@ public class LoginService {
     public void enviarEmail(LoginRequest dto, GeraToken classeToken) {
 
         // URL usada para trocar a senha
-        String baseUrl = "http://localhost:9000/cadastro";
+        String baseUrl = "http://localhost:9000/recuperar-senha";
 
         // valida ID
         String validId = repository.validaId(dto.getId());
@@ -63,7 +64,7 @@ public class LoginService {
         }
 
         // Dispara Email
-        repository.disparaEmail(baseUrl, emailUsiario, classeToken);
+        repository.disparaEmail(baseUrl, emailUsiario, classeToken, dto);
     }
 
     public void loginUserService(LoginRequest dto)  {
@@ -76,6 +77,24 @@ public class LoginService {
         int ehLoginValido = repository.efeturaLogin(dto);
         if (ehLoginValido != 1){
             throw new RegrasNegocioException("Credenciais inválidas") {};
+        }
+
+    }
+
+    public void recuperarSenhaUsuario(LoginRequest dto)  {
+
+        int returno = repository.recuperarSenhaUsuario(dto);
+        if (returno == 0){
+            throw new RuntimeException("Erro ao alterar senha") {};
+        }
+
+    }
+
+    public void recuperarSenhaEmpresa(LoginRequest dto)  {
+
+        int returno = repository.recuperarSenhaEmpresa(dto);
+        if (returno == 0){
+            throw new RuntimeException("Erro ao alterar senha") {};
         }
 
     }

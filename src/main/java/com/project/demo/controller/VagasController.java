@@ -53,7 +53,6 @@ public class VagasController {
 
   @PostMapping("/cadastrarVagas")
   public ResponseEntity<?> cadastrarVagas(@RequestBody VagasRequestDTO vagas) {
-    System.out.println(vagas);
     log.info("ENDPOINT / JOB CREATE");
 
     List<Vagas> vagasPublicadas = service.cadastrarVagas(vagas);
