@@ -14,7 +14,7 @@ public class SqlUsuariosPf {
 
     public static String insereTokenTabela = "INSERT INTO ALISSON.VALIDATOKEN (CODUSUARIO, TOKEN, DATATOKEN) VALUES ( :codUsuario, :token, :datatoken)";
 
-    public static String cadastrarUsuario = "INSERT INTO ALISSON.USUARIOS(ID, NOME, CPF, EMAIL, SENHA) VALUES (sqcUsuario.nextval, :nome, :cpf, :email, :senha)";
+    public static String cadastrarUsuario = "INSERT INTO ALISSON.USUARIOS(ID, NOME, CPF, EMAIL, SENHA, CARGO_ATUAL) VALUES (INCREMENTA_ID_USUARIO_SEQ.nextval, :NOME, :CPF, :EMAIL, :SENHA, :CARGO_ATUAL)";
 
     public static String listaUsuario = "SELECT ID, NOME FROM ALISSON.USUARIOS";
 

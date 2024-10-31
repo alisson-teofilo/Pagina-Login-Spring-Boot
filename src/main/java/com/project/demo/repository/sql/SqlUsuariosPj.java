@@ -10,9 +10,9 @@ public class SqlUsuariosPj {
 
     public static String crateUserRepository = """
             INSERT INTO ALISSON.EMPRESAS
-            (RAZAO_SOCIAL, NOME_FANTASIA, CNPJ, FUNDACAO, EMAIL , SEGMENTO , SENHA, NUMERO_FUNCIONARIOS)
-            VALUES 
-            (:RAZAO_SOCIAL, :NOME_FANTASIA, :CNPJ, :FUNDACAO, :EMAIL, :SEGMENTO, :SENHA, :NUMERO_FUNCIONARIOS)
+            (RAZAO_SOCIAL, NOME_FANTASIA, CNPJ, EMAIL , SEGMENTO , SENHA)
+            VALUES
+            (:RAZAO_SOCIAL, :NOME_FANTASIA, :CNPJ, :EMAIL, :SEGMENTO, :SENHA)
             """;
 
     public static String updateUserPj = """

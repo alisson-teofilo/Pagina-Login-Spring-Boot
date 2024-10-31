@@ -27,7 +27,7 @@ public class UsuarioPfController {
 
     @PostMapping("/cadastrarUsuario")
     public ResponseEntity<?> createUser(@RequestBody UsuarioPfRequest usuarioPfRequest) {
-        log.info("Cadastrar Usuarios");
+        log.info("CADASTRANDO USUARIO - /cadastrarUsuario");
 
             service.cadastrarUsuario(usuarioPfRequest);
 
@@ -36,7 +36,7 @@ public class UsuarioPfController {
 
     @GetMapping("/listarUsuarios")
     public ResponseEntity<List<?>> listaUsuariosController() {
-        log.info("Listar Usuarios");
+        log.info("LISTANDO USUARIOS - /listarUsuarios");
 
         List<UsuarioPfResponseDTO> retornoLista = service.listarUsuario();
             return ResponseEntity.ok(retornoLista);
@@ -45,7 +45,7 @@ public class UsuarioPfController {
 
     @PutMapping("/atualizarCadastro")
     public ResponseEntity<?> updateUsuario(@RequestBody UsuarioPfRequest usuarioPfRequest) {
-        log.info("Atualizar Usuários");
+        log.info("ATUALZIANDO USUARIO - /atualizarCadastro");
 
             service.atualizaUsuario(usuarioPfRequest);
 
@@ -54,7 +54,7 @@ public class UsuarioPfController {
 
     @PostMapping("/excluirUsiaro")
     public ResponseEntity<?> excluirUsuario(@RequestBody UsuarioPfRequest reqeust){
-        log.info("Excluir Usuário");
+        log.info("EXCLUINDO USUÁRIO - /excluirUsiaro");
 
         service.excluirUsuario(reqeust);
 
@@ -63,7 +63,7 @@ public class UsuarioPfController {
 
     @GetMapping("/buscarUsuario/{id}")
     public ResponseEntity<?> buscarUsuario(@PathVariable String id){
-        log.info("Buscando usuário");
+        log.info("BUSCANDO USUÁRO - /buscarUsuario");
 
         UsuarioPfResponseDTO usuario = service.buscarUsuario(id);
 

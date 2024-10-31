@@ -34,14 +34,14 @@ public class UsuarioPfRepository {
 
     public int cadastrarUsuario(UsuarioPfRequest usuarioPfRequest) {
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("nome", usuarioPfRequest.getNome())
-                .addValue("cpf", usuarioPfRequest.getCpf())
-                .addValue("email", usuarioPfRequest.getEmail())
-                .addValue("senha", usuarioPfRequest.getSenha());
+                .addValue("NOME", usuarioPfRequest.getNome())
+                .addValue("EMAIL", usuarioPfRequest.getEmail())
+                .addValue("CPF", usuarioPfRequest.getCpf())
+                .addValue("CARGO_ATUAL", usuarioPfRequest.getCpf())
+                .addValue("SENHA", usuarioPfRequest.getSenha());
 
         return namedJdbcTemplate.update(SqlUsuariosPf.cadastrarUsuario, params);
     }
-
 
     public List<UsuarioPF> listarUsuario() {
         try {

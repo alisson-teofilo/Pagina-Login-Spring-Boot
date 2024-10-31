@@ -27,7 +27,6 @@ public class UsuarioPfService {
         this.loginRepository = loginRepository;
     }
 
-    @Transactional
     public void cadastrarUsuario(UsuarioPfRequest usuarioPfRequest) {
 
        int retornoRepository = repository.cadastrarUsuario(usuarioPfRequest);

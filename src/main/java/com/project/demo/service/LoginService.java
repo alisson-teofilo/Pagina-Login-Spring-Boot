@@ -1,11 +1,14 @@
 package com.project.demo.service;
 
 import com.project.demo.dto.requestDTO.LoginRequest;
+import com.project.demo.dto.requestDTO.UsuarioPfRequest;
 import com.project.demo.exeption.RegrasNegocioException;
 import com.project.demo.repository.LoginRepository;
 import com.project.demo.repository.UsuarioPfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -31,6 +34,8 @@ public class LoginService {
 
         // converte a string em LocalDate
         DateTimeFormatter formataData = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss,SSSSSSSSS");
+        System.out.println("dataTokenUsuario " + dataTokenUsuario);
+        System.out.println("formataData " + formataData);
         LocalDateTime dataFormatada = LocalDateTime.parse(dataTokenUsuario, formataData);
 
 
@@ -92,7 +97,7 @@ public class LoginService {
 
     public void recuperarSenhaEmpresa(LoginRequest dto)  {
 
-        int returno = repository.recuperarSenhaEmpresa(dto);
+        int returno = repository.recuperarSenhaUsuario(dto);
         if (returno == 0){
             throw new RuntimeException("Erro ao alterar senha") {};
         }

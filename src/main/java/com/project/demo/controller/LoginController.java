@@ -1,7 +1,6 @@
 package com.project.demo.controller;
 
 import com.project.demo.dto.requestDTO.LoginRequest;
-import com.project.demo.dto.requestDTO.UsuarioPfRequest;
 import com.project.demo.service.GeraToken;
 import com.project.demo.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,7 @@ public class LoginController {
 
     @PostMapping("/validarToken")
     public ResponseEntity<?> validaToken(@RequestBody LoginRequest request) {
-        log.info("Validar Token");
+        log.info("VALIDANDO TOKEN - /validarToken");
 
         loginService.validaToken(request);
 
@@ -34,7 +33,7 @@ public class LoginController {
 
     @PostMapping("/enviaEmail")
     public ResponseEntity<?> enviaEmail(@RequestBody LoginRequest dto, GeraToken classeToken) {
-        log.info("Enviar Email");
+        log.info("ENVIANDO EMAIL - /enviaEmail");
         loginService.enviarEmail(dto, classeToken);
 
         return ResponseEntity.status(HttpStatus.OK).body("Instruções foram enviadas no seu Email.");
@@ -42,7 +41,7 @@ public class LoginController {
 
     @PostMapping("/efetuarLogin")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest dto) {
-        log.info("Logando");
+        log.info("FAZENDO LOGIN - /efetuarLogin");
         loginService.loginUserService(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body("Login Autorizado!");
@@ -50,7 +49,7 @@ public class LoginController {
 
     @PostMapping("/recuperarSenhaUsuario")
     public ResponseEntity<?> recuperarSenhaUsuario(@RequestBody LoginRequest dto) {
-        log.info("Logando");
+        log.info("RECUPERANDO SENHA USÁRIO - /recuperarSenhaUsuario");
         loginService.recuperarSenhaUsuario(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body("Senha atualizada com sucesso!");
@@ -58,7 +57,7 @@ public class LoginController {
 
     @PostMapping("/recuperarSenhaEmpresa")
     public ResponseEntity<?> recuperarSenhaEmpresa(@RequestBody LoginRequest dto) {
-        log.info("Logando");
+        log.info("RECUPERANDO SENHA EMPRESA - /recuperarSenhaEmpresa");
         loginService.recuperarSenhaEmpresa(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body("Senha atualizada com sucesso!");

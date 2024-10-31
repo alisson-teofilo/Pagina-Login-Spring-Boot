@@ -29,7 +29,7 @@ public class VagasController {
 
   @GetMapping("/listarVagas")
     public ResponseEntity<?> listarVagas() {
-      log.info("ENDPOINT / JOB LIST");
+      log.info("LISTANDO VAGAS - /listarVagas");
 
       List<VagasResponseDTO> retorno = service.listarVagas();
       return ResponseEntity.ok(retorno);
@@ -37,7 +37,7 @@ public class VagasController {
 
   @GetMapping("/listarCandidaturasByUsuaio/{cpfUsuario}")
     public ResponseEntity<?> listarCandidaturasByUsuaio(@PathVariable String cpfUsuario) {
-      log.info("ENDPOINT / CANDIDATURAS POR USUÁRIO");
+      log.info(" LISTANDO VAGAS QUE O USUARIO APLICOU - /listarCandidaturasByUsuaio");
 
       List<VagasResponseDTO> retorno = service.listarCandidaturasByUsuaio(cpfUsuario);
       return ResponseEntity.ok(retorno);
@@ -45,7 +45,7 @@ public class VagasController {
 
   @GetMapping("/vagasPublicadas/{cnpj}")
     public ResponseEntity<?> buscarVagasPublicas(@PathVariable String cnpj) {
-      log.info("ENDPOINT / BUSCAR VAGAS PUBLICASAS");
+      log.info("VAGAS PUBLICADAS PELA EMPRESA - /vagasPublicadas : " + cnpj);
 
     List<VagasResponseDTO> retorno = service.buscarVagasPublicas(cnpj);
       return ResponseEntity.ok(retorno);
@@ -53,7 +53,7 @@ public class VagasController {
 
   @PostMapping("/cadastrarVagas")
   public ResponseEntity<?> cadastrarVagas(@RequestBody VagasRequestDTO vagas) {
-    log.info("ENDPOINT / JOB CREATE");
+    log.info("CADASTRANDO VAGA - /cadastrarVagas");
 
     List<Vagas> vagasPublicadas = service.cadastrarVagas(vagas);
     return ResponseEntity.ok(vagasPublicadas);
@@ -61,28 +61,28 @@ public class VagasController {
 
   @PostMapping("/candidatarVaga")
   public void candidatarVaga(@RequestBody VagasRequestDTO vagas) {
-    log.info("ENDPOINT / CANDIDATAR VAGA");
+    log.info("CANDIDATANDO A VAGA - /candidatarVaga");
 
     service.candidatarVaga(vagas);
   }
 
   @PutMapping("/deletarCandidatura")
   public void deletarCandidatura(@RequestBody VagasRequestDTO vagas) {
-    log.info("ENDPOINT / DELETAR CANDIDATURA");
+    log.info("EXCLUINDO CANDIDATURA - /deletarCandidatura");
 
     service.deletarCandidatura(vagas);
   }
 
   @PutMapping("/editarVagas")
   public void editarVagas(@RequestBody VagasRequestDTO vagas) {
-    log.info("ENDPOINT /JOB UPDATE");
+    log.info("EDITANDO VAGA - /editarVagas");
 
     service.editarVagas(vagas);
   }
 
   @PostMapping("/buscarVagas")
   public ResponseEntity<?> buscarVagas(@RequestBody VagasRequestDTO request ) throws IOException, ParseException {
-    log.info("ENDPOINT / BUSCAR VAGA");
+    log.info("BUSCANDO VAGAS /buscarVagas");
 
     List<VagasResponseDTO> vagasEncontradas = service.buscarVagas(request);
     return ResponseEntity.ok(vagasEncontradas);

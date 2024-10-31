@@ -21,18 +21,14 @@ public class UsuarioPjRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int crateUserRepository(UsuarioPjRequest request)
-    {
+    public int crateUserRepository(UsuarioPjRequest request) {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("RAZAO_SOCIAL", request.getRazaoSocial())
                 .addValue("NOME_FANTASIA", request.getNomeFantasia())
                 .addValue("CNPJ", request.getCnpj())
-                .addValue("FUNDACAO", request.getFundacao())
                 .addValue("EMAIL", request.getEmail())
                 .addValue("SEGMENTO", request.getSegmento())
-                .addValue("SENHA", request.getSenha())
-                .addValue("NUMERO_FUNCIONARIOS", request.getNumeroFuncionario()
-                );
+                .addValue("SENHA", request.getSenha());
 
         return jdbcTemplate.update(SqlUsuariosPj.crateUserRepository, params);
     }

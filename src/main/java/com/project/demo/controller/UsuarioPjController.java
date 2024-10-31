@@ -28,7 +28,7 @@ public class UsuarioPjController {
 
     @PostMapping("/cadastrarEmpresa")
     public ResponseEntity<?> createUser(@RequestBody UsuarioPjRequest request) throws ParseException {
-        log.info("Cadastrar Empresa");
+        log.info("CADASTRANDO EMPRESA - /cadastrarEmpresa");
 
             service.cadastrarUsuarioPj(request);
 
@@ -37,7 +37,8 @@ public class UsuarioPjController {
 
     @PutMapping("/editarCadastroEmpresa")
     public ResponseEntity<?> updateUsuario(@RequestBody UsuarioPjRequest usuarioPfRequest){
-        log.info("Atualizar Empesa");
+        System.out.println(usuarioPfRequest);
+        log.info("ATUALIZANDO CADASTRO EMPRESA - /editarCadastroEmpresa");
 
             service.atualizaUsuarioPj(usuarioPfRequest);
 
@@ -46,7 +47,7 @@ public class UsuarioPjController {
 
     @GetMapping("buscarEmpresa/{cnpj}")
     public ResponseEntity<?> buscarUsuario(@PathVariable String cnpj){
-        log.info("Buscando usuário");
+        log.info("BUSCANDO EMPRESA - /buscarEmpresa: " + cnpj);
 
         UsuarioPjResponseDTO usuario = service.buscarUsuario(cnpj);
 
