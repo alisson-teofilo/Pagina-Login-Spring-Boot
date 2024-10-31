@@ -43,11 +43,21 @@ public class VagasController {
       return ResponseEntity.ok(retorno);
   }
 
+  @GetMapping("/vagasPublicadas/{cnpj}")
+    public ResponseEntity<?> buscarVagasPublicas(@PathVariable String cnpj) {
+      log.info("ENDPOINT / BUSCAR VAGAS PUBLICASAS");
+
+    List<VagasResponseDTO> retorno = service.buscarVagasPublicas(cnpj);
+      return ResponseEntity.ok(retorno);
+  }
+
   @PostMapping("/cadastrarVagas")
-  public void cadastrarVagas(@RequestBody VagasRequestDTO vagas) {
+  public ResponseEntity<?> cadastrarVagas(@RequestBody VagasRequestDTO vagas) {
+    System.out.println(vagas);
     log.info("ENDPOINT / JOB CREATE");
 
-    service.cadastrarVagas(vagas);
+    List<Vagas> vagasPublicadas = service.cadastrarVagas(vagas);
+    return ResponseEntity.ok(vagasPublicadas);
   }
 
   @PostMapping("/candidatarVaga")
@@ -57,7 +67,7 @@ public class VagasController {
     service.candidatarVaga(vagas);
   }
 
-  @PostMapping("/deletarCandidatura")
+  @PutMapping("/deletarCandidatura")
   public void deletarCandidatura(@RequestBody VagasRequestDTO vagas) {
     log.info("ENDPOINT / DELETAR CANDIDATURA");
 

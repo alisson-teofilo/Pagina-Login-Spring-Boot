@@ -36,7 +36,9 @@ public class VagasRepository {
     }
 
     public void cadastrarVagas(VagasRequestDTO request) {
+
         SqlParameterSource params = new MapSqlParameterSource()
+
                         .addValue("CNPJ_EMPRESA",request.getCnpjEmpresa())
                         .addValue("TITULO",request.getTitulo())
                         .addValue("DESCRICAO",request.getDescricao())
@@ -63,11 +65,13 @@ public class VagasRepository {
     }
 
     public int editarVagas(VagasRequestDTO vagasReqeuest) {
+        System.out.println(vagasReqeuest);
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("TITULO",vagasReqeuest.getTitulo())
                 .addValue("DESCRICAO",vagasReqeuest.getDescricao())
+                .addValue("SENIORIDADE", vagasReqeuest.getJobLevel())
                 .addValue("VALOR_MENSAL",vagasReqeuest.getValorMensal())
-                .addValue("CNPJ", vagasReqeuest.getCnpjEmpresa());
+                .addValue("ID_VAGA",vagasReqeuest.getIdVaga());
         return namedJdbcTemplate.update(SqlVagas.jobUpdate, params);
     }
 
@@ -75,7 +79,13 @@ public class VagasRepository {
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("DESCRICAO", request.getDescricao());
 
-        return namedJdbcTemplate.query(SqlVagas.searchJobs, params, new BeanPropertyRowMapper<>(Vagas.class));
+        return namedJdbcTemplate.query(SqlVagas.buscarVagas, params, new BeanPropertyRowMapper<>(Vagas.class));
+    }
+
+    public List<Vagas> vagasPublicadas(String cnpjEmpresa) {
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("CNPJ_EMPRESA", cnpjEmpresa);
+        return namedJdbcTemplate.query(SqlVagas.vagasPublicadas, params, new BeanPropertyRowMapper<>(Vagas.class));
     }
 }
 

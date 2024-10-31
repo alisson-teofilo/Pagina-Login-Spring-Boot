@@ -17,7 +17,7 @@ public class SqlUsuariosPj {
 
     public static String updateUserPj = """
             UPDATE ALISSON.EMPRESAS
-            	SET NOME_FANTASIA  = :NOME_FANTASIA, FUNDACAO  = :FUNDACAO, EMAIL = :EMAIL, SEGMENTO = :SEGMENTO, SENHA = :SENHA, NUMERO_FUNCIONARIOS = :NUMERO_FUNCIONARIOS
+            SET NOME_FANTASIA = :NOME_FANTASIA, EMAIL = :EMAIL, SENHA = :SENHA
             WHERE CNPJ = :CNPJ
             """;
 

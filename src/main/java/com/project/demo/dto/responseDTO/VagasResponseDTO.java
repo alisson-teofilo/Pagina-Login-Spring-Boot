@@ -36,6 +36,7 @@ public class VagasResponseDTO {
         this.dataPublicacao = vagas.getDataPublicacao();
         this.valorMensal = vagas.getValorMensal();
         this.localAtuacao = vagas.getLocalAtuacao();
+        this.jobLevel = vagas.getJobLevel();
     }
 
     public static List<VagasResponseDTO> convert(List<Vagas> vagas) {

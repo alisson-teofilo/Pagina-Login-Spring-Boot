@@ -45,7 +45,6 @@ public class LoginController {
     @PostMapping("/efetuarLogin")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest dto) {
         log.info("Logando");
-        System.out.println(dto);
         loginService.loginUserService(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body("Login Autorizado!");

@@ -47,8 +47,14 @@ public class VagasService {
         return VagasResponseDTO.convert(retorno);
     }
 
-    public void cadastrarVagas(VagasRequestDTO requestDTO) {
+    public List<Vagas> cadastrarVagas(VagasRequestDTO requestDTO) {
         repository.cadastrarVagas(requestDTO);
+        return repository.vagasPublicadas(requestDTO.getCnpjEmpresa());
+    }
+
+    public List<VagasResponseDTO>  buscarVagasPublicas(String cpnj) {
+        List<Vagas> response = repository.vagasPublicadas(cpnj);
+        return VagasResponseDTO.convert(response);
     }
 
     public void candidatarVaga(VagasRequestDTO requestDTO) {
@@ -62,7 +68,9 @@ public class VagasService {
     }
 
     public void editarVagas(VagasRequestDTO vagasReqeuest) {
-        int registroAtualizado = repository.editarVagas(vagasReqeuest);
+        if(repository.editarVagas(vagasReqeuest) != 1 ) {
+            throw new RuntimeException("Erro ao atualizar vaga");
+        }
     }
 
     public List<VagasResponseDTO> buscarVagas(VagasRequestDTO request) throws IOException, ParseException {

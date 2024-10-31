@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("link-vagas/usuarioPF")
+@RequestMapping("link-vagas/usuario")
 @Slf4j
 public class UsuarioPfController {
 

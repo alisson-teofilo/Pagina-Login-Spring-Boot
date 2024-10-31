@@ -18,4 +18,5 @@ public class VagasRequestDTO {
     private String  plataforma;
     private String idVaga;
     private String cpfUsuario;
+    private String jobLevel;
 }
